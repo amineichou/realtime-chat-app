@@ -1,0 +1,48 @@
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar>.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-bar>.logo img {
+    width: 130px;
+    height: auto;
+}
+
+.nav-bar>.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.nav-bar>.user button {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    padding: 12px 10px;
+    font-weight: 600;
+    background-color: #fff;
+    color: #4f4f4f;
+    border: 1px solid #b8b8b8;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.nav-bar>.user button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.nav-bar>.user button:hover {
+    background-color: #dedede;
+}

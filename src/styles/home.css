@@ -1,0 +1,41 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.home-page>.example {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 20px;
+}
+
+.home-page>.wlc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.home-page>.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.home-page>.about h1 {
+    color: var(--primary-color);
+    font-size: 6rem;
+}
+
+.home-page>.about h2 {
+    color: var(--dark-color);
+}
