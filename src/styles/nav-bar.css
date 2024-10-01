@@ -13,36 +13,102 @@
 }
 
 .nav-bar>.logo img {
-    width: 130px;
+    width: 60px;
     height: auto;
 }
 
-.nav-bar>.user {
+.nav-bar .usr {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-bar .usr .google-btn {
     display: flex;
     align-items: center;
     gap: 10px;
-    
-}
-
-.nav-bar>.user button {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 5px;
-    padding: 12px 10px;
-    font-weight: 600;
-    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;;
+    background: none;
     color: #4f4f4f;
-    border: 1px solid #b8b8b8;
-    border-radius: 5px;
     cursor: pointer;
+    border: 1px solid #ccc;
     transition: all 0.3s ease-in-out;
 }
-.nav-bar>.user button svg {
-    width: 18px;
-    height: 18px;
+
+.nav-bar .usr .google-btn:hover {
+    background: #f1f1f1;
 }
 
-.nav-bar>.user button:hover {
-    background-color: #dedede;
+.nav-bar .usr .google-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+.nav-bar .usr .profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.nav-bar .usr .profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 2px;
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-bar .usr .profile img:hover {
+    border: 2px solid var(--secondary-color);
+}
+
+.nav-bar .usr .profile-sets {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    top: 80px;
+    padding: 5px;
+    gap: 5px;
+    right: 30px;
+    background: #fff;
+    border: 1px solid #a5a5a5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.nav-bar .usr .profile-sets.show {
+    display: flex;
+    /* Add any transition effect, like: */
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-bar .usr .profile-sets h3 {
+    padding: 10px;
+    border-bottom: 1px solid #a5a5a5;
+    font-size: 1rem;
+    color: #4f4f4f;
+    text-align: center;
+}
+
+.nav-bar .usr .profile-sets button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    gap: 10px;
+    cursor: pointer;
+    color: #4f4f4f;
+    font-size: 1rem;
+    padding: 12px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-bar .usr .profile-sets button:hover {
+    background: #f1f1f1;
 }
