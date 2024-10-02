@@ -13,6 +13,7 @@ import { auth, db } from "../../../firebase-config";
 import { useParams } from "react-router-dom";
 import MessageBox from "../../../components/message-box";
 import { IoSend } from "react-icons/io5";
+import { text } from "framer-motion/client";
 
 const RoomPage = () => {
   const { roomId } = useParams();
@@ -58,8 +59,8 @@ const RoomPage = () => {
       try {
         const roomsQ = query(
           roomsColl,
-          where("name", "==", roomId),
-          where("by", "==", auth.currentUser.uid) // Check if the user created the room
+          where("roomId", "==", roomId),
+          where("users", "array-contains", auth.currentUser.uid) // Check if the user is a member of the room
         );
         const querySnapshot = await getDocs(roomsQ);
 
@@ -123,7 +124,7 @@ const RoomPage = () => {
     <div className="room-page">
       {isRoomAvailable ? (
         <>
-          <h1 className="title">{roomId}</h1>
+          <div className="room-header">room</div>
           <div className="messages" ref={messagesRef}>
             {messages.length > 0 ? (
               messages.map((message) => (

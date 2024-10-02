@@ -37,7 +37,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #f8f9fa;
+    background-color: #ebebeb;
     padding: 20px;
     border-top: 1px solid #dee2e6;
     gap: 10px;
@@ -48,7 +48,7 @@
     width: 90%;
     max-width: 600px;
     padding: 15px;
-    border: 1px solid #ced4da;
+    border: none;
     border-radius: 5px;
     font-size: 1.1rem;
     outline: none;
