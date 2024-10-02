@@ -1,6 +1,7 @@
 .home-user .myrooms {
     display: flex;
     flex-direction: column;
+    flex: 1;
     background-color: #7583ff;
     padding: 30px;
     border-radius: 5px;

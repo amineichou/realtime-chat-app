@@ -45,7 +45,7 @@ const AvRooms = () => {
             </Link>
           ))
         ) : (
-          <p>No rooms available</p>
+          <p>No rooms available, you can create one :)</p>
         )}
       </div>
     </div>

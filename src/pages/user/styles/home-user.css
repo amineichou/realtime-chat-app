@@ -1,15 +1,15 @@
 .home-user {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 30px;
 }
 
 .home-user .rooms-gen {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
     width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
 
@@ -19,8 +19,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1;
     width: 100%;
-    gap: 10px;
+    gap: 20px;
     background-color: #eaeaea;
     padding: 30px;
     border-radius: 5px;
@@ -29,6 +30,7 @@
 .join-room input,
 .add-room input {
     width: 100%;
+    min-width: 250px;
     padding: 20px;
     font-size: 1rem;
     border: none;
@@ -45,6 +47,7 @@
     cursor: pointer;
     color: #fff;
     font-weight: 600;
+    font-size: 1.1rem;
     background-color: var(--message-color);
     transition: all 0.3s ease-in-out;
 }
@@ -52,4 +55,21 @@
 .join-room button:hover,
 .add-room button:hover {
     background-color: var(--primary-color);
+}
+
+.add-room .room-theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.add-room .room-theme button {
+    padding: 20px;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.add-room .room-theme button.checked {
+    border: 2px solid #000;
 }
