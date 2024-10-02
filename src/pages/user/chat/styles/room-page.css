@@ -1,0 +1,69 @@
+.room-page {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.room-page .title {
+    background-color: #f1f1f1;
+    color: #2e2e2e;
+    padding: 20px;
+    font-size: 1.3rem;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.room-page .messages {
+    flex-grow: 1;
+    /* Take all available height */
+    display: flex;
+    flex-direction: column;
+    /* New messages at the bottom */
+    overflow-y: auto;
+    /* Allow scrolling when messages exceed container height */
+    padding: 10px;
+    /* Padding inside the messages container */
+    padding: 100px 30px;
+    gap: 20px;
+}
+
+.room-page .message-form {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-top: 1px solid #dee2e6;
+    gap: 10px;
+}
+
+
+.room-page .message-input {
+    width: 90%;
+    max-width: 600px;
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.room-page button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: none;
+    background-color: var(--message-color);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.6rem;
+    outline: none;
+}

@@ -1,14 +1,15 @@
 import React from "react";
-import "../styles/message.css";
+import "../styles/message-box.css";
 
-const Message = ({ params }) => {
+const MessageBox = (params) => {
+  const { who, message, profileImage } = params;
   return (
     <div className="message-cnt">
       {params.who ? (
         ""
       ) : (
         <img
-          src="https://avatars.githubusercontent.com/u/94761090?v=4"
+          src={profileImage}
           alt="user"
           className="user-pic"
         />
@@ -17,17 +18,17 @@ const Message = ({ params }) => {
       <div
         className="message"
         style={{
-          backgroundColor: params.who
+          backgroundColor: who
             ? "var(--message-color) "
             : "var(--out-message-color)",
-          color: params.who ? "#fff" : "#000",
-          marginLeft: params.who ? "auto" : "0",
+          color: who ? "#fff" : "#000",
+          marginLeft: who ? "auto" : "0",
         }}
       >
-        <p>{params.text}</p>
+        <p>{message}</p>
       </div>
     </div>
   );
 };
 
-export default Message;
+export default MessageBox;

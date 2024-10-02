@@ -6,12 +6,14 @@
     padding: 30px;
 }
 
-.home-user .rooms {
+.home-user .rooms-gen {
     display: grid;
+    width: 100%;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
 
+.join-room,
 .add-room {
     display: flex;
     flex-direction: column;
@@ -24,6 +26,7 @@
     border-radius: 5px;
 }
 
+.join-room input,
 .add-room input {
     width: 100%;
     padding: 20px;
@@ -34,52 +37,19 @@
     outline: none;
 }
 
+.join-room button,
 .add-room button {
-    background-color: var(--primary-color);
     border: none;
     padding: 14px 20px;
     border-radius: 5px;
     cursor: pointer;
     color: #fff;
     font-weight: 600;
+    background-color: var(--message-color);
     transition: all 0.3s ease-in-out;
 }
 
+.join-room button:hover,
 .add-room button:hover {
-    background-color: var(--secondary-color);
-}
-
-.home-user .myrooms {
-    display: flex;
-    flex-direction: column;
-    background-color: #7583ff;
-    padding: 30px;
-    border-radius: 5px;
-    width: 100%;
-    gap: 20px;
-    color: #fff;
-}
-
-.home-user .myrooms .myrooms-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.home-user .myrooms .myrooms-list a {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #ffffff;
-    gap: 10px;
-    padding: 20px;
-    font-weight: 600;
-    color: #000;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-}
-
-.home-user .myrooms .myrooms-list a:hover {
-    background-color: #f5f5f5;
+    background-color: var(--primary-color);
 }

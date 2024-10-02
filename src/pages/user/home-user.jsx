@@ -1,15 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import "./styles/home-user.css";
-import {
-  addDoc,
-  collection,
-  onSnapshot,
-  query,
-  serverTimestamp,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
-import { Link } from "react-router-dom";
+import AvRooms from "./av-rooms";
 
 const AddRoom = () => {
   const roomInputRef = useRef(null);
@@ -24,8 +17,18 @@ const AddRoom = () => {
     try {
       await addDoc(roomsColl, {
         name: roomName,
+        roomId:
+          "hangout-rooms-" +
+          roomName.toLowerCase().replace(/\s/g, "-") +
+          "-" +
+          Date.now() +
+          "-" +
+          Math.floor(Math.random() * 1000) +
+          "-" +
+          Math.floor(Math.random() * 1000),
         by: auth.currentUser.uid,
         createdAt: serverTimestamp(),
+        users: [auth.currentUser.uid],
       });
     } catch (error) {
       console.error("Error adding room: ", error);
@@ -34,62 +37,31 @@ const AddRoom = () => {
 
   return (
     <div className="add-room">
+      <p>Create Rooms and invite your friends to join.</p>
       <input type="text" placeholder="Room Name" ref={roomInputRef} />
-      <button onClick={addRoomdb}>Add Room</button>
+      <button onClick={addRoomdb}>Create Room</button>
+    </div>
+  );
+};
+
+const JoinRoom = () => {
+  return (
+    <div className="join-room">
+      <p>Join Rooms and chat with friends.</p>
+      <input type="text" placeholder="Room Name" />
+      <button>Join Room</button>
     </div>
   );
 };
 
 const HomeUser = () => {
-  const [rooms, setRooms] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
-  const roomsColl = collection(db, "rooms");
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user || null);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (!currentUser) return;
-
-    const queryRooms = query(roomsColl, where("by", "==", currentUser.uid));
-    const unsubscribe = onSnapshot(
-      queryRooms,
-      (snapshot) => {
-        setRooms(snapshot.docs.map((doc) => doc.data()));
-      },
-      (error) => {
-        console.error("Error fetching rooms: ", error);
-      }
-    );
-
-    return () => unsubscribe();
-  }, [currentUser]);
-
   return (
     <div className="home-user">
-      <div className="rooms">
-        <p>Create Rooms and invite your friends to join the room and chat with them.</p>
+      <div className="rooms-gen">
         <AddRoom />
+        <JoinRoom />
       </div>
-      <div className="myrooms">
-        <h2>My Rooms</h2>
-        <div className="myrooms-list">
-          {rooms.length > 0 ? (
-            rooms.map((room) => (
-              <Link to={`/rooms/${room.name}`} key={room.name} className="room">
-                {room.name}
-              </Link>
-            ))
-          ) : (
-            <p>No rooms available</p>
-          )}
-        </div>
-      </div>
+      <AvRooms />
     </div>
   );
 };

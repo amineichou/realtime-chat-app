@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../styles/home.css";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
-import Message from "../components/message";
+import MessageBox from "../components/message-box";
 
 const Home = () => {
   const text = "Try This Crazy Chat App".split(" ");
@@ -13,7 +13,7 @@ const Home = () => {
     animate(count, 2, {
       duration: 2,
     });
-  }, []);
+  }, [ count ]);
 
   const messages = [
     {
@@ -34,7 +34,7 @@ const Home = () => {
       <div className="example">
         {
             messages.map((el, i) => (
-                <Message key={i} params={el} />
+                <MessageBox key={i} params={el} />
             ))
         }
       </div>

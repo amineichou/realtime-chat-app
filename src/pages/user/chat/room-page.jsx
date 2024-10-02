@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./styles/room-page.css";
 import {
   addDoc,
@@ -11,6 +11,8 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
 import { useParams } from "react-router-dom";
+import MessageBox from "../../../components/message-box";
+import { IoSend } from "react-icons/io5";
 
 const RoomPage = () => {
   const { roomId } = useParams();
@@ -19,6 +21,34 @@ const RoomPage = () => {
   const [messages, setMessages] = useState([]);
   const roomsColl = collection(db, "rooms");
   const messagesColl = collection(db, "messages");
+  const textAreaRef = useRef(null);
+  const messagesRef = useRef(null);
+
+  // Adjust the textarea height based on content, but limit to 720px
+  const adjustTextAreaHeight = () => {
+    const textArea = textAreaRef.current;
+    if (textArea) {
+      textArea.style.height = "auto"; // Reset height before calculating
+      const newHeight = textArea.scrollHeight;
+
+      // Set height to fit content but cap at 720px
+      if (newHeight > 720) {
+        textArea.style.height = "720px"; // Cap height at 720px
+        textArea.style.overflowY = "auto"; // Add scroll if content exceeds 720px
+      } else {
+        textArea.style.height = newHeight + "px"; // Set height to content size
+        textArea.style.overflowY = "hidden"; // Hide scroll if not needed
+      }
+    }
+  };
+
+  // Scroll to the start of the messages when a new message is sent or received
+  useEffect(() => {
+    // Automatically scroll to the latest message when messages update
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // Check if the room exists and belongs to the authenticated user
   useEffect(() => {
@@ -55,6 +85,8 @@ const RoomPage = () => {
         user: auth.currentUser.uid,
         roomId, // Save the room ID to associate the message with the room
       });
+      const textArea = textAreaRef.current;
+      if (textArea) textArea.style.height = "auto"; // Reset height after submission
       setNewMessage(""); // Clear the input field after submission
     } catch (error) {
       console.error("Error sending message:", error);
@@ -72,7 +104,15 @@ const RoomPage = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setMessages(fetchedMessages); // Store the messages in state
+
+      // Sort messages by 'createdAt' timestamp
+      const sortedMessages = fetchedMessages.sort((a, b) => {
+        const timeA = a.createdAt ? a.createdAt.toMillis() : 0; // Fallback if timestamp is missing
+        const timeB = b.createdAt ? b.createdAt.toMillis() : 0; // Fallback if timestamp is missing
+        return timeA - timeB; // Ascending order (older messages first)
+      });
+
+      setMessages(sortedMessages); // Store the sorted messages in state
     });
 
     // Cleanup listener on component unmount
@@ -83,26 +123,38 @@ const RoomPage = () => {
     <div className="room-page">
       {isRoomAvailable ? (
         <>
-          <h1>{roomId}</h1>
-          <div className="messages">
+          <h1 className="title">{roomId}</h1>
+          <div className="messages" ref={messagesRef}>
             {messages.length > 0 ? (
               messages.map((message) => (
-                <div key={message.id} className="message">
-                  <strong>{message.user}:</strong> {message.message}
-                </div>
+                <MessageBox
+                  key={message.id}
+                  message={message.message}
+                  who={message.user === auth.currentUser.uid ? true : false}
+                  profileImage="https://via.placeholder.com/150"
+                />
               ))
             ) : (
               <p>No messages yet...</p>
             )}
           </div>
-          <form onSubmit={handleSubmit}>
-            <input
+          <form onSubmit={handleSubmit} className="message-form">
+            <textarea
               type="text"
+              ref={textAreaRef}
               placeholder="Message"
               value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              className="message-input"
+              onChange={(e) => {
+                setNewMessage(e.target.value);
+                adjustTextAreaHeight(); // Adjust height as text is typed
+              }}
+              rows="1" // Minimum rows, auto grows
+              style={{ resize: "none", overflow: "hidden" }} // Disable manual resizing
             />
-            <button type="submit">Send</button>
+            <button type="submit">
+              <IoSend />
+            </button>
           </form>
         </>
       ) : (
