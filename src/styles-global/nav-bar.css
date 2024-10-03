@@ -1,8 +1,10 @@
 .nav-bar {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
+    padding: 0 30px;
+    height: 100px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -19,7 +21,49 @@
 
 .nav-bar .usr {
     display: flex;
+    align-items: center;
     gap: 20px;
+}
+
+.nav-bar .usr .usr-sets {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    gap: 5px;
+    background: #fff;
+    border: 1px solid #a5a5a5;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-bar .usr .usr-sets:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-bar .usr .usr-sets svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-bar .usr .usr-sets.notification {
+    position: relative;
+}
+
+.nav-bar .usr .usr-sets.notification p{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 0.8rem;
 }
 
 .nav-bar .usr .google-btn {
@@ -27,7 +71,7 @@
     align-items: center;
     gap: 10px;
     padding: 10px;
-    border-radius: 5px;;
+    border-radius: 5px;
     background: none;
     color: #4f4f4f;
     cursor: pointer;
@@ -71,7 +115,7 @@
     display: none;
     position: absolute;
     flex-direction: column;
-    top: 80px;
+    top: 90px;
     padding: 5px;
     gap: 5px;
     right: 30px;
@@ -80,6 +124,7 @@
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .nav-bar .usr .profile-sets.show {
     display: flex;
     /* Add any transition effect, like: */

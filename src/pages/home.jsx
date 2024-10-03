@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../styles/home.css";
+import "../styles-global/home.css";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import MessageBox from "../components/message-box";
 

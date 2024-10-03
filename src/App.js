@@ -32,15 +32,17 @@ function App() {
   return (
     <Suspense fallback={<LoadingPage />}>
       <BrowserRouter>
-        <NavBar
-          setIsAuthenticated={setIsAuthenticated}
-          isAuthenticated={isAuthenticated}
-        />
-        <Routes>
-          <Route path="/" element={<HomeUser />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/rooms/:roomId" element={<RoomPage />} />
-        </Routes>
+        <div className="App">
+          <NavBar
+            setIsAuthenticated={setIsAuthenticated}
+            isAuthenticated={isAuthenticated}
+          />
+          <Routes>
+            <Route path="/" element={<HomeUser />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/rooms/:roomId" element={<RoomPage />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </Suspense>
   );

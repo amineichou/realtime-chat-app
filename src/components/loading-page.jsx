@@ -1,6 +1,6 @@
 import React from "react";
 import { BallTriangle } from "react-loader-spinner";
-import "../styles/loading-page.css";
+import "../styles-global/loading-page.css";
 
 const LoadingPage = () => {
   return (

@@ -4,15 +4,43 @@
     height: 90vh;
 }
 
-.room-page .title {
-    background-color: #f1f1f1;
-    color: #2e2e2e;
-    padding: 20px;
-    font-size: 1.3rem;
+.room-page .room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    background-color: #dedede;
+    color: #3e3e3e;
+}
+
+.room-page .room-header button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: none;
+    color: #000;
+    cursor: pointer;
+    font-size: 2rem;
+    outline: none;
+}
+
+.room-page .room-header h1 {
+    font-size: 1.2rem;
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.room-page .room-header .users {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.room-page .room-header .users p {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #3e3e3e;
 }
 
 .room-page .messages {
@@ -50,7 +78,7 @@
     padding: 15px;
     border: none;
     border-radius: 5px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     outline: none;
 }
 

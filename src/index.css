@@ -21,3 +21,12 @@ body {
 }
 
 /* font-family: "Rubik", sans-serif; */
+
+span {
+  font-family: "Rubik", sans-serif;
+  color: var(--primary-color);
+}
+
+.toast {
+  font-size: 0.8rem;
+}

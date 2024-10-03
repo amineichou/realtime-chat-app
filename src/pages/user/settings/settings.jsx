@@ -4,6 +4,8 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import "./styles.css";
 import { auth, db, storage } from "../../../firebase-config";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Settings = () => {
   const [username, setUsername] = useState("");
@@ -11,8 +13,8 @@ const Settings = () => {
   const [sex, setSex] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [newPhoto, setNewPhoto] = useState(null);
-  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -87,17 +89,23 @@ const Settings = () => {
 
       // Handle image upload
       await handlePhotoUpload();
-
-      setMessage("Profile updated successfully!");
+      Swal.fire({
+        title: "Good job!",
+        text: "Profile updated successfully!",
+        icon: "success",
+      });
     } catch (error) {
-      setMessage("Error updating profile: " + error.message);
+      Swal.fire({
+        title: "So sorry!",
+        text: "Error updating profile: " + error.message,
+        icon: "error"
+      });
     }
   };
 
   return (
     <div className="settings-container">
       <h2>Settings</h2>
-      {message && <p>{message}</p>}
       <form onSubmit={handleUpdateProfile}>
         <div className="profile-picture">
           <img src={photoURL || "default-profile.png"} alt="profile" />
@@ -127,7 +135,7 @@ const Settings = () => {
             <option value="">Select</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="other">Shel7</option>
           </select>
         </div>
         <button type="submit">Update Profile</button>
