@@ -8,7 +8,7 @@ import Cookies from "universal-cookie";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import LoadingPage from "./loading-page";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaUser } from "react-icons/fa";
 import { TbUsersPlus } from "react-icons/tb";
 import AddRoom from "./create-room";
 import JoinRoom from "./join-room";
@@ -28,45 +28,42 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
   const [showJoinRoom, setShowJoinRoom] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const profileSetsRef = useRef(null);
+  const notificationsRef = useRef(null); // Reference for notifications
   const navigate = useNavigate();
 
   const [unreadCount, setUnreadCount] = useState(0);
-  const [notificationsList, setNotificationsList] = useState([]); // Store notifications list
+  const [notificationsList, setNotificationsList] = useState([]);
   const notificationsColl = collection(db, "notifications");
 
   // Fetch unread notifications count and list
   useEffect(() => {
-    if (!auth.currentUser) return; // Ensure the user is authenticated before proceeding
-    const userId = auth.currentUser.uid;
-
     const unsubscribe = onSnapshot(notificationsColl, (snapshot) => {
-      const unreadNotifications = snapshot.docs.filter((doc) => {
-        const data = doc.data();
-        return !data.readBy?.includes(userId); // Notifications not read by user
-      });
+      if (!auth.currentUser) return; // Ensure the user is authenticated
 
-      setNotificationsList(snapshot.docs.map((doc) => doc.data())); // Update the list of notifications
-      setUnreadCount(Math.max(unreadNotifications.length, 0)); // Ensure the count is never negative
+      const userId = auth.currentUser.uid;
+      const fetchedNotifications = snapshot.docs.map((doc) => doc.data());
+      setNotificationsList(fetchedNotifications); // Update the notifications list
+
+      const unreadNotifications = fetchedNotifications.filter(
+        (data) => !data.readBy?.includes(userId)
+      );
+      setUnreadCount(unreadNotifications.length); // Set unread count
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup listener
   }, []);
 
   // Handle user authentication state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrentUser(user);
-        setLoaded(true);
-      } else {
-        setLoaded(true);
-      }
+      setCurrentUser(user);
+      setLoaded(true);
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup listener
   }, []);
 
-  // Handle click outside the profile dropdown to close it
+  // Handle click outside the profile dropdown and notifications to close them
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -74,6 +71,12 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
         !profileSetsRef.current.contains(event.target)
       ) {
         setShowProfileSets(false);
+      }
+
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(event.target)
+      ) {
         setShowNotifications(false);
       }
     };
@@ -111,28 +114,29 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
   }
 
   const profileImage =
-    currentUser && currentUser.photoURL
-      ? currentUser.photoURL
-      : currentUser?.gender === "female"
-      ? ProfileImageF
-      : ProfileImageM;
+    currentUser?.photoURL ||
+    (currentUser?.gender === "female" ? ProfileImageF : ProfileImageM);
 
   return (
     <>
       {isAuthenticated && (
-        <AddRoom
-          displayBox={showCreateRoom}
-          setDisplayBox={setShowCreateRoom}
-        />
-      )}
-      {isAuthenticated && (
-        <JoinRoom displayBox={showJoinRoom} setDisplayBox={setShowJoinRoom} />
-      )}
-      {isAuthenticated && showNotifications && (
-        <Notifications
-          notifications={notificationsList} // Pass notifications to component
-          setShowNotifications={setShowNotifications} // Toggle visibility
-        />
+        <>
+          <AddRoom
+            displayBox={showCreateRoom}
+            setDisplayBox={setShowCreateRoom}
+          />
+          <JoinRoom displayBox={showJoinRoom} setDisplayBox={setShowJoinRoom} />
+          {showNotifications && (
+            <div ref={notificationsRef}>
+              {" "}
+              {/* Wrap Notifications component with ref */}
+              <Notifications
+                notifications={notificationsList} // Pass notifications to component
+                setShowNotifications={setShowNotifications} // Toggle visibility
+              />
+            </div>
+          )}
+        </>
       )}
       <div className="nav-bar">
         <Link to="/" className="logo">
@@ -146,21 +150,21 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
             <>
               <button
                 className="usr-sets"
-                onClick={() => setShowCreateRoom(!showCreateRoom)}
+                onClick={() => setShowCreateRoom((prev) => !prev)}
               >
                 <FaPlus />
               </button>
               <button
                 className="usr-sets"
-                onClick={() => setShowJoinRoom(!showJoinRoom)}
+                onClick={() => setShowJoinRoom((prev) => !prev)}
               >
                 <TbUsersPlus />
               </button>
               <button
                 className="usr-sets notification"
-                onClick={() => setShowNotifications(!showNotifications)}
+                onClick={() => setShowNotifications((prev) => !prev)}
               >
-                <p>{unreadCount}</p>
+                <p>{unreadCount > 0 ? unreadCount : ""}</p>
                 <IoNotifications />
               </button>
               <button
@@ -169,25 +173,31 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
               >
                 <img src={profileImage} alt="profile" />
               </button>
-              <div
-                ref={profileSetsRef}
-                className={`profile-sets ${showProfileSets ? "show" : ""}`}
-              >
-                <h3>{currentUser?.displayName || "User"}</h3>
-                <button
-                  onClick={() => {
+              {showProfileSets && (
+                <div ref={profileSetsRef} className="profile-sets show">
+                  <h3>{currentUser?.displayName || "User"}</h3>
+                  <button onClick={() => {
                     setShowProfileSets(false);
-                    navigate("/settings");
-                  }}
-                >
-                  <IoSettingsSharp />
-                  Settings
-                </button>
-                <button onClick={signUserOut}>
-                  <ImExit />
-                  Sign Out
-                </button>
-              </div>
+                    navigate(`/users/${currentUser?.displayName}`);
+                  }}>
+                    <FaUser />
+                    Profile
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowProfileSets(false);
+                      navigate("/settings");
+                    }}
+                  >
+                    <IoSettingsSharp />
+                    Settings
+                  </button>
+                  <button onClick={signUserOut}>
+                    <ImExit />
+                    Sign Out
+                  </button>
+                </div>
+              )}
             </>
           ) : (
             <button className="google-btn" onClick={signInWithGoogle}>

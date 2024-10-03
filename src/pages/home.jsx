@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "../styles-global/home.css";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import MessageBox from "../components/message-box";
+import Login from "./login";
 
 const Home = () => {
   const text = "Try This Crazy Chat App".split(" ");
@@ -56,6 +57,7 @@ const Home = () => {
       <div className="about">
         <motion.h1>{rounded}</motion.h1> <h2>USERS</h2>
       </div>
+      <Login />
     </div>
   );
 };

@@ -30,6 +30,9 @@
 
 .notifications-container .notification .notification-message {
     padding: 20px;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
 }
 
 .notifications-container .notification .notification-time {

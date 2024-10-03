@@ -1,0 +1,68 @@
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+}
+
+.user-profile img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    padding: 5px;
+    border: 2px solid var(--primary-color);
+}
+
+.user-profile h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.user-profile p,
+.user-profile h2 {
+    font-size: 1rem;
+    color: #5b5b5b;
+}
+
+.user-profile .add-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.user-profile .add-profile button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.user-profile .add-profile .edit {
+    background-color: #000;
+    border: 2px solid #000;
+}
+
+.user-profile .add-profile .message {
+    background-color: var(--message-color);
+    border: 2px solid var(--message-color);
+}
+
+.user-profile .add-profile .add {
+    background-color: var(--message-color);
+    border: 2px solid var(--message-color);
+}
+
+.user-profile .add-profile .remove {
+    border: 2px solid var(--message-color);
+    background: none;
+    color: var(--message-color);
+}

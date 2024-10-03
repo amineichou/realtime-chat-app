@@ -8,6 +8,7 @@ import HomeUser from "./pages/user/home-user";
 import LoadingPage from "./components/loading-page";
 import Settings from "./pages/user/settings/settings";
 import RoomPage from "./pages/user/chat/room-page";
+import UserProfile from "./pages/user/user-profile";
 
 const cookies = new Cookies();
 
@@ -40,6 +41,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomeUser />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/users/:userId" element={<UserProfile />} />
             <Route path="/rooms/:roomId" element={<RoomPage />} />
           </Routes>
         </div>
