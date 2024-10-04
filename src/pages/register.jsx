@@ -10,7 +10,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [dob, setDob] = useState("");
+  const [dob, setDob] = useState(new Date());
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -74,10 +74,12 @@ const Register = () => {
 
       // Save user info to Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
+        id: userCredential.user.uid,
         username,
         email,
         dob,
         createdAt: serverTimestamp(),
+        image: "/images/cute-cat.jpeg"
       });
 
       // Update the usernames document
@@ -142,7 +144,7 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label>New Password</label>
           <input
             type="password"
             value={password}
@@ -150,6 +152,15 @@ const Register = () => {
             required
           />
         </div>
+        {/* <div className="form-group">
+          <label>Conferm Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div> */}
         {error && <p className="error-message">{error}</p>}
         <button type="submit">Register</button>
       </form>

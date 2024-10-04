@@ -4,16 +4,23 @@
     height: 90vh;
 }
 
-.room-page .room-header {
+.room-page .loading {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 30px;
-    background-color: #dedede;
-    color: #3e3e3e;
+    height: 100%;
 }
 
-.room-page .room-header button {
+.room-page .room-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    color: #3e3e3e;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* .room-page .room-header button {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -22,7 +29,7 @@
     cursor: pointer;
     font-size: 2rem;
     outline: none;
-}
+} */
 
 .room-page .room-header h1 {
     font-size: 1.2rem;
@@ -37,6 +44,7 @@
     flex-direction: column;
     gap: 10px;
 }
+
 .room-page .room-header .users p {
     font-size: 0.7rem;
     font-weight: 600;
@@ -57,6 +65,12 @@
     gap: 20px;
 }
 
+.room-page .messages .room-createdAt {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #3e3e3e;
+}
+
 .room-page .message-form {
     position: fixed;
     display: flex;
@@ -66,7 +80,7 @@
     left: 0;
     width: 100%;
     background-color: #ebebeb;
-    padding: 20px;
+    padding: 10px;
     border-top: 1px solid #dee2e6;
     gap: 10px;
 }

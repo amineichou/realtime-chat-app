@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import MessageBox from "../../../components/message-box";
 import { IoSend } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { BallTriangle } from "react-loader-spinner";
 
 const RoomPage = () => {
   const { roomId } = useParams();
@@ -21,8 +22,7 @@ const RoomPage = () => {
   const [isRoomAvailable, setIsRoomAvailable] = useState(false);
   const [roomInfo, setRoomInfo] = useState({});
   const [messages, setMessages] = useState([]);
-  const roomsColl = collection(db, "rooms");
-  const messagesColl = collection(db, "messages");
+  const [isFetching, setIsFetching] = useState(true);
   const textAreaRef = useRef(null);
   const messagesRef = useRef(null);
 
@@ -30,16 +30,14 @@ const RoomPage = () => {
   const adjustTextAreaHeight = () => {
     const textArea = textAreaRef.current;
     if (textArea) {
-      textArea.style.height = "auto"; // Reset height before calculating
+      textArea.style.height = "auto";
       const newHeight = textArea.scrollHeight;
-
-      // Set height to fit content but cap at 720px
       if (newHeight > 720) {
-        textArea.style.height = "720px"; // Cap height at 720px
-        textArea.style.overflowY = "auto"; // Add scroll if content exceeds 720px
+        textArea.style.height = "720px";
+        textArea.style.overflowY = "auto";
       } else {
-        textArea.style.height = newHeight + "px"; // Set height to content size
-        textArea.style.overflowY = "hidden"; // Hide scroll if not needed
+        textArea.style.height = `${newHeight}px`;
+        textArea.style.overflowY = "hidden";
       }
     }
   };
@@ -58,16 +56,21 @@ const RoomPage = () => {
 
       try {
         const roomsQ = query(
-          roomsColl,
+          collection(db, "rooms"),
           where("roomId", "==", roomId),
-          where("users", "array-contains", auth.currentUser.uid) // Check if the user is a member of the room
+          where("users", "array-contains", auth.currentUser.uid)
         );
         const querySnapshot = await getDocs(roomsQ);
-        setRoomInfo(querySnapshot.docs[0]?.data()); // Store room info in state
-        setIsRoomAvailable(!querySnapshot.empty); // Set availability based on whether room exists
+        if (!querySnapshot.empty) {
+          setRoomInfo(querySnapshot.docs[0].data() || {});
+          setIsRoomAvailable(true);
+        } else {
+          setIsRoomAvailable(false);
+        }
       } catch (error) {
         console.error("Error checking room:", error.message);
         setIsRoomAvailable(false);
+        setIsFetching(false);
       }
     };
 
@@ -80,16 +83,17 @@ const RoomPage = () => {
     if (newMessage.trim() === "") return;
 
     try {
-      await addDoc(messagesColl, {
-        message: newMessage,
+      await addDoc(collection(db, "messages"), {
+        message: newMessage.trim(),
         createdAt: serverTimestamp(),
         user: auth.currentUser.uid,
-        userName: auth.currentUser.displayName,
-        roomId, // Save the room ID to associate the message with the room
+        userName: auth.currentUser.displayName || "Anonymous",
+        roomId,
       });
-      const textArea = textAreaRef.current;
-      if (textArea) textArea.style.height = "auto"; // Reset height after submission
-      setNewMessage(""); // Clear the input field after submission
+
+      // Reset textarea height and clear message input
+      if (textAreaRef.current) textAreaRef.current.style.height = "auto";
+      setNewMessage("");
     } catch (error) {
       console.error("Error sending message:", error.message);
     }
@@ -97,54 +101,52 @@ const RoomPage = () => {
 
   // Fetch and listen to messages for the current room
   useEffect(() => {
-    if (!roomId) return;
+    if (!roomId || !isRoomAvailable) return;
 
-    const queryMessages = query(messagesColl, where("roomId", "==", roomId)); // Query messages for the current room
+    const queryMessages = query(
+      collection(db, "messages"),
+      where("roomId", "==", roomId)
+    );
 
     const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-      const fetchedMessages = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const fetchedMessages = snapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter((msg) => msg.createdAt) // Ensure valid createdAt timestamp
+        .sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis());
 
-      // Sort messages by 'createdAt' timestamp, ensuring valid timestamps
-      const sortedMessages = fetchedMessages
-        .filter((msg) => msg.createdAt) // Filter out messages without timestamps
-        .sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()); // Ascending order (older messages first)
-
-      setMessages(sortedMessages); // Store the sorted messages in state
+      setMessages(fetchedMessages);
     });
 
-    // Cleanup listener on component unmount
     return () => unsubscribe();
-  }, [roomId]);
+  }, [roomId, isRoomAvailable]);
 
   // Handle Enter key press to submit message
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevent default behavior of Enter key (newline)
-      handleSubmit(e); // Submit the message
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
 
   return (
     <div className="room-page">
+      
       {isRoomAvailable ? (
         <>
           <div className="room-header">
-            <h1>{roomInfo.name}</h1>
-            <button>
+            <h1>{roomInfo.name || "Room"}</h1>
+            {/* <button>
               <GiHamburgerMenu />
-            </button>
-            {/* 
-                        <div className="users">
-              {roomInfo.usersNames?.map((name) => (
-                <p key={name}>{name}</p>
-              ))}
-            </div>
-             */}
+            </button> */}
           </div>
           <div className="messages" ref={messagesRef}>
+            <p className="room-createdAt">
+              {
+                // createAt
+                "Created at: " +
+                  new Date(roomInfo.createdAt?.seconds * 1000).toLocaleString()
+              }
+            </p>
             {messages.length > 0 ? (
               messages.map((message) => (
                 <MessageBox
@@ -169,18 +171,28 @@ const RoomPage = () => {
               onKeyDown={handleKeyDown}
               onChange={(e) => {
                 setNewMessage(e.target.value);
-                adjustTextAreaHeight(); // Adjust height as text is typed
+                adjustTextAreaHeight();
               }}
-              rows="1" // Minimum rows, auto grows
-              style={{ resize: "none", overflow: "hidden" }} // Disable manual resizing
+              rows="1"
+              style={{ resize: "none", overflow: "hidden" }}
             />
             <button type="submit" disabled={!newMessage.trim()}>
               <IoSend />
             </button>
           </form>
         </>
+      ) : isFetching ? (
+        <div className="loading">
+          <BallTriangle
+            visible={true}
+            height={100}
+            width={100}
+            color="#2B9FFF"
+            backgroundColor="#e20b0b"
+          />
+        </div>
       ) : (
-        <h1>Room Not Found</h1>
+        <p>Room not found or you don't have access.</p>
       )}
     </div>
   );

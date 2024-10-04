@@ -9,7 +9,7 @@ const LoadingPage = () => {
         visible={true}
         height={100}
         width={100}
-        color="#e20b0b"
+        color="#2B9FFF"
         backgroundColor="#e20b0b"
       />
     </div>

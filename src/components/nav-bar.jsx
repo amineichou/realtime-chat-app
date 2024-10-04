@@ -12,7 +12,7 @@ import { TbUsersPlus } from "react-icons/tb";
 import AddRoom from "./create-room";
 import JoinRoom from "./join-room";
 import Notifications from "./notifications";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot, getDoc } from "firebase/firestore";
 
 const cookies = new Cookies();
 
@@ -20,7 +20,7 @@ const ProfileImageF = "/images/profile-f.jpeg";
 const ProfileImageM = "/images/profile-m.jpeg";
 
 const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState(null); // State to store Firestore user data
   const [showProfileSets, setShowProfileSets] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [showCreateRoom, setShowCreateRoom] = useState(false);
@@ -52,10 +52,24 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
     return () => unsubscribe(); // Cleanup listener
   }, []);
 
-  // Handle user authentication state
+  // Fetch authenticated user data from Firestore
   useEffect(() => {
+    const fetchUserData = async (uid) => {
+      try {
+        const userDoc = doc(db, "users", uid); // Reference to user document in Firestore
+        const userSnap = await getDoc(userDoc);
+        if (userSnap.exists()) {
+          setUserData(userSnap.data()); // Save Firestore user data in state
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      }
+    };
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      if (user) {
+        fetchUserData(user.uid); // Fetch user data from Firestore when authenticated
+      }
       setLoaded(true);
     });
 
@@ -92,7 +106,7 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
       await signOut(auth);
       cookies.remove("auth-token");
       setIsAuthenticated(false);
-      setCurrentUser(null);
+      setUserData(null);
     } catch (error) {
       console.error("Sign-Out Error:", error.message);
     }
@@ -103,8 +117,8 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
   }
 
   const profileImage =
-    currentUser?.photoURL ||
-    (currentUser?.gender === "female" ? ProfileImageF : ProfileImageM);
+    userData?.image || // Use Firestore photoURL
+    (userData?.gender === "female" ? ProfileImageF : ProfileImageM); // Default based on gender
 
   return (
     <>
@@ -117,8 +131,6 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
           <JoinRoom displayBox={showJoinRoom} setDisplayBox={setShowJoinRoom} />
           {showNotifications && (
             <div ref={notificationsRef}>
-              {" "}
-              {/* Wrap Notifications component with ref */}
               <Notifications
                 notifications={notificationsList} // Pass notifications to component
                 setShowNotifications={setShowNotifications} // Toggle visibility
@@ -164,11 +176,11 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
               </button>
               {showProfileSets && (
                 <div ref={profileSetsRef} className="profile-sets show">
-                  <h3>{currentUser?.displayName || "User"}</h3>
+                  <h3>{userData.username}</h3>
                   <button
                     onClick={() => {
                       setShowProfileSets(false);
-                      navigate(`/users/${currentUser?.displayName}`);
+                      navigate(`/users/${userData.username}`);
                     }}
                   >
                     <FaUser />
