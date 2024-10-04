@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../styles-global/nav-bar.css";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db, provider } from "../firebase-config";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { auth, db } from "../firebase-config";
+import { signOut } from "firebase/auth";
 import Cookies from "universal-cookie";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
@@ -87,16 +86,6 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
     };
   }, []);
 
-  const signInWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      cookies.set("auth-token", result.user.refreshToken);
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Google Sign-In Error:", error.message);
-    }
-  };
-
   const signUserOut = async () => {
     try {
       setShowProfileSets(false);
@@ -176,10 +165,12 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
               {showProfileSets && (
                 <div ref={profileSetsRef} className="profile-sets show">
                   <h3>{currentUser?.displayName || "User"}</h3>
-                  <button onClick={() => {
-                    setShowProfileSets(false);
-                    navigate(`/users/${currentUser?.displayName}`);
-                  }}>
+                  <button
+                    onClick={() => {
+                      setShowProfileSets(false);
+                      navigate(`/users/${currentUser?.displayName}`);
+                    }}
+                  >
                     <FaUser />
                     Profile
                   </button>
@@ -200,10 +191,10 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
               )}
             </>
           ) : (
-            <button className="google-btn" onClick={signInWithGoogle}>
-              <FcGoogle />
-              Continue with Google
-            </button>
+            <div className="login">
+              <Link to="/login" className="lg">Login</Link>
+              <Link to="/register" className="re">Register</Link>
+            </div>
           )}
         </div>
       </div>

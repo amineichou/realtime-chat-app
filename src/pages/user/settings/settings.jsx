@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import "./styles.css";
 import { auth, db, storage } from "../../../firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,6 @@ const Settings = () => {
     const fetchUserData = async () => {
       const currentUser = auth.currentUser;
       if (currentUser) {
-        // Populate form with current user info
         setUsername(currentUser.displayName || "");
         setPhotoURL(currentUser.photoURL || "");
         
@@ -55,13 +54,11 @@ const Settings = () => {
     let isValid = true;
     const newErrors = {};
 
-    // Validate full name: only letters and spaces allowed
     if (!nameRegex.test(fullName)) {
       newErrors.fullName = "Full name can only contain letters and spaces.";
       isValid = false;
     }
 
-    // Validate username: only letters, numbers, ., _, and - are allowed
     if (!usernameRegex.test(username)) {
       newErrors.username =
         "Username can only contain letters, numbers, '.', '_', and '-'.";
@@ -72,6 +69,17 @@ const Settings = () => {
     return isValid;
   };
 
+  // Check if username is taken
+  const isUsernameTaken = async (username) => {
+    const usernamesQuery = query(
+      collection(db, "usernames"),
+      where("taken", "array-contains", username)
+    );
+
+    const querySnapshot = await getDocs(usernamesQuery);
+    return !querySnapshot.empty; // Returns true if username is taken
+  };
+
   // Handle profile update
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -80,6 +88,12 @@ const Settings = () => {
     }
 
     try {
+      // Check if the username is already taken
+      if (await isUsernameTaken(username)) {
+        setErrors({ username: "Username is already taken." });
+        return;
+      }
+
       // Update profile in Firebase Auth
       await updateProfile(auth.currentUser, { displayName: username });
 
@@ -97,7 +111,7 @@ const Settings = () => {
     } catch (error) {
       Swal.fire({
         title: "So sorry!",
-        text: "Error updating profile: " + error.message,
+        text: "Error updating profile: ",
         icon: "error"
       });
     }
@@ -135,7 +149,7 @@ const Settings = () => {
             <option value="">Select</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Shel7</option>
+            <option value="other">Other</option>
           </select>
         </div>
         <button type="submit">Update Profile</button>

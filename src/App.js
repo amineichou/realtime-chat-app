@@ -9,6 +9,8 @@ import LoadingPage from "./components/loading-page";
 import Settings from "./pages/user/settings/settings";
 import RoomPage from "./pages/user/chat/room-page";
 import UserProfile from "./pages/user/user-profile";
+import Register from "./pages/register";
+import Login from "./pages/login";
 
 const cookies = new Cookies();
 
@@ -25,7 +27,11 @@ function App() {
             setIsAuthenticated={setIsAuthenticated}
             isAuthenticated={isAuthenticated}
           />
-          <Home />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated}/>} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
         </div>
       </BrowserRouter>
     );

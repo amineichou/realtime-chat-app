@@ -3,6 +3,7 @@ import "../styles-global/home.css";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import MessageBox from "../components/message-box";
 import Login from "./login";
+import Register from "./register";
 
 const Home = () => {
   const text = "Try This Crazy Chat App".split(" ");
@@ -18,17 +19,9 @@ const Home = () => {
 
   const messages = [
     {
-        who: true,
-        text: "Chkoun nta?",
-    },
-    {
-        who: false,
-        text: "hhhhhhhhhhhhhhhhhhh",
-    },
-    {
-        who: false,
-        text: "l7wa",
-    },
+      who: false,
+      message: "Hey, how are you?",
+    }
   ]
   return (
     <div className="home-page">
@@ -57,7 +50,6 @@ const Home = () => {
       <div className="about">
         <motion.h1>{rounded}</motion.h1> <h2>USERS</h2>
       </div>
-      <Login />
     </div>
   );
 };

@@ -1,0 +1,111 @@
+.register,
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.register h1,
+.login-page h1 {
+    font-size: 2rem;
+    color: var(--message-color);
+}
+
+.register form,
+.login-page form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+.register form .form-group,
+.login-page form div {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.register form .form-group label,
+.login-page form div label {
+    font-size: 0.8rem;
+    color: #4f4f4f;
+}
+.register form .form-group input,
+.login-page form div input {
+    width: 300px;
+    padding: 15px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    outline: none;
+}
+
+.register form .form-group input:focus,
+.login-page form div input:focus {
+    border-color: var(--message-color);
+}
+
+.register form button,
+.login-page form button {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--message-color);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.register form button:hover,
+.login-page form button:hover {
+    background-color: var(--message-color-hover);
+}
+
+.register .error-message,
+.login-page .error-message {
+    color: red;
+    font-size: 0.8rem;
+}
+
+.login-page .else {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    margin-top: 1rem;
+}
+
+.login-page .else a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: none;
+    color: #4f4f4f;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease-in-out;
+}
+
+.google-btn:hover {
+    background: #f1f1f1;
+}
+
+.google-btn svg {
+    width: 20px;
+    height: 20px;
+}

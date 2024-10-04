@@ -66,29 +66,6 @@
     font-size: 0.8rem;
 }
 
-.nav-bar .usr .google-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background: none;
-    color: #4f4f4f;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    transition: all 0.3s ease-in-out;
-}
-
-.nav-bar .usr .google-btn:hover {
-    background: #f1f1f1;
-}
-
-.nav-bar .usr .google-btn svg {
-    width: 20px;
-    height: 20px;
-}
-
-
 .nav-bar .usr .profile {
     display: flex;
     align-items: center;
@@ -156,4 +133,42 @@
 
 .nav-bar .usr .profile-sets button:hover {
     background: #f1f1f1;
+}
+
+.nav-bar .login {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-bar .login a {
+    text-decoration: none;
+    color: #4f4f4f;
+    font-size: 1rem;
+}
+
+
+.nav-bar .login .re,
+.nav-bar .login .lg {
+    font-size: 0.9rem;
+}
+
+.nav-bar .login .re {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background: var(--message-color);
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-bar .login .re:hover {
+    background: var(--message-color-hover);
+}
+
+.nav-bar .login .lg {
+    color: var(--message-color);
+    font-weight: 600;
 }
