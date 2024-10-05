@@ -29,7 +29,6 @@ const NoRoomAvailable = () => {
 };
 
 const copyToClipboard = (toCopy) => {
-  // copy to clipboard roomId
   navigator.clipboard.writeText(toCopy).then(
     function () {
       Toast.fire({
@@ -42,30 +41,14 @@ const copyToClipboard = (toCopy) => {
         icon: "error",
         title: "Error copying to clipboard!" + err,
       });
-      const tempTextArea = document.createElement("textarea");
-      tempTextArea.value = toCopy;
-      document.body.appendChild(tempTextArea);
-      try {
-        document.execCommand("copy");
-        console.log("Text copied to clipboard");
-        Toast.fire({
-          icon: "success",
-          title: "Room ID copied to clipboard!",
-        });
-      } catch (err) {
-        Toast.fire({
-          icon: "error",
-          title: "Error copying to clipboard!" + err,
-        });
-      }
     }
   );
 };
 
-const AvRooms = () => {
-  const [menu, setMenu] = useState("none");
+const AvRooms = ({ inRoom }) => {
   const [rooms, setRooms] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(null); // State to track the active menu
   const roomsColl = collection(db, "rooms");
 
   useEffect(() => {
@@ -100,23 +83,21 @@ const AvRooms = () => {
     return () => unsubscribe();
   }, [currentUser]);
 
-  const deleteRoom = async () => {
-    // Delete the room
+  const deleteRoom = async (roomId) => {
     try {
-      const roomId = rooms[0].roomId;
       const roomQuery = query(roomsColl, where("roomId", "==", roomId));
-      // Get the room document(s)
       const querySnapshot = await getDocs(roomQuery);
 
       if (!querySnapshot.empty) {
         querySnapshot.forEach(async (docSnapshot) => {
-          // Get the document ID and delete the document
           const roomDoc = doc(db, "rooms", docSnapshot.id);
           await deleteDoc(roomDoc);
-          console.log("Room deleted successfully!");
+          Toast.fire({
+            icon: "success",
+            title: "Room deleted successfully!",
+          });
         });
       } else {
-        console.log("Room not found.");
         Toast.fire({
           icon: "error",
           title: "Room not found!",
@@ -127,48 +108,36 @@ const AvRooms = () => {
         icon: "error",
         title: "Error deleting room: " + error.message,
       });
-      console.error("Error deleting room:", error);
     }
   };
 
-  const leaveRoom = async () => {
-    // Leave the room
+  const leaveRoom = async (roomId) => {
     try {
-      const roomId = rooms[0].roomId;
       const roomQuery = query(roomsColl, where("roomId", "==", roomId));
-      // Get the room document(s)
       const querySnapshot = await getDocs(roomQuery);
 
       if (!querySnapshot.empty) {
         querySnapshot.forEach(async (docSnapshot) => {
-          // Get the document ID
           const roomDoc = doc(db, "rooms", docSnapshot.id);
           const roomData = docSnapshot.data();
           const roomUsers = roomData.users;
           const roomUsersNames = roomData.usersNames;
-          const currentUser = auth.currentUser.uid;
-          const currentUserIndex = roomUsers.indexOf(currentUser);
+          const currentUserIndex = roomUsers.indexOf(currentUser.uid);
 
           if (currentUserIndex !== -1) {
-            // Remove the current user from the users array
             roomUsers.splice(currentUserIndex, 1);
-            // Remove the current user's name from the usersNames array
             roomUsersNames.splice(currentUserIndex, 1);
 
-            // Update the room document
-            await deleteDoc(roomDoc);
             await setDoc(roomDoc, {
               ...roomData,
               users: roomUsers,
               usersNames: roomUsersNames,
             });
-            console.log("Left room successfully!");
             Toast.fire({
               icon: "success",
               title: "Left room successfully!",
             });
           } else {
-            console.log("User not found in the room.");
             Toast.fire({
               icon: "error",
               title: "User not found in the room!",
@@ -176,14 +145,12 @@ const AvRooms = () => {
           }
         });
       } else {
-        console.log("Room not found.");
         Toast.fire({
           icon: "error",
           title: "Room not found!",
         });
       }
     } catch (error) {
-      console.error("Error leaving room:", error);
       Toast.fire({
         icon: "error",
         title: "Error leaving room: " + error.message,
@@ -192,7 +159,7 @@ const AvRooms = () => {
   };
 
   return (
-    <div className="myrooms">
+    <div className={`myrooms ${inRoom && "in-room"}`}>
       <h2>My Rooms</h2>
       <div className="myrooms-list">
         {rooms.length > 0 ? (
@@ -200,59 +167,48 @@ const AvRooms = () => {
             <div className="room-box" key={room.roomId}>
               <Link
                 to={`/rooms/${room.roomId}`}
-                style={{ display: menu === "flex" ? "flex" : "none" }}
+                style={{
+                  display: activeMenu === room.roomId ? "none" : "flex",
+                }}
               >
                 {room.name}
               </Link>
               <div
                 className="room-box-set"
-                style={{ display: menu === "flex" ? "none" : "flex" }}
+                style={{
+                  display: activeMenu === room.roomId ? "flex" : "none",
+                }}
               >
                 <button onClick={() => copyToClipboard(room.roomId)}>
                   <IoCopySharp />
                 </button>
-                {
-                  // Only the room creator can delete the room
-                  room.by === currentUser.uid ? (
-                    <button className="delete" onClick={deleteRoom}>
-                      Delete <IoMdTrash />
-                    </button>
-                  ) : (
-                    ""
-                  )
-                }
+                {room.by === currentUser.uid && (
+                  <button
+                    className="delete"
+                    onClick={() => deleteRoom(room.roomId)}
+                  >
+                    Delete <IoMdTrash />
+                  </button>
+                )}
+                {room.by !== currentUser.uid && (
+                  <button
+                    className="room-leave"
+                    onClick={() => leaveRoom(room.roomId)}
+                  >
+                    Leave <ImExit />
+                  </button>
+                )}
                 <div className="room-users">
-                  {
-                    // usres in the room
-                    room.users.length
-                  }
+                  {room.users.length}
                   <FaUserFriends />
-                </div>
-                {
-                  // everyone can leave the room except the creator
-                  room.by !== currentUser.uid ? (
-                    <button className="room-leave" onClick={leaveRoom}>
-                      Leave
-                      <ImExit />
-                    </button>
-                  ) : (
-                    ""
-                  )
-                }
-                <div className="room-creator">
-                  <p>By</p>
-                  <span>
-                    {
-                      // room creator
-                      room.by === currentUser.uid ? "You" : room.creatorName
-                    }
-                  </span>
                 </div>
               </div>
               <button
                 className="menu"
                 onClick={() => {
-                  setMenu(menu === "none" ? "flex" : "none");
+                  setActiveMenu(
+                    activeMenu === room.roomId ? null : room.roomId
+                  );
                 }}
               >
                 <CgMenuGridO />

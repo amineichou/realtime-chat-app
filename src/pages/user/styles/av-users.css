@@ -7,22 +7,32 @@
     background-color: #78c2fa;
     color: #fff;
     border-radius: 5px;
-    width: 300px;
+    min-width: 250px;
+    width: 30%;
+}
+
+.av-users-container.in-room {
+    width: 100%;
+    color: #000;
+    background: none;
 }
 
 .av-users-container .search-users {
     display: flex;
+    width: 100%;
 }
 
 .av-users-container .search-users input {
-    padding: 14px;
+    padding: 20px;
     border-radius: 5px;
     border: none;
-    width: 200px;
+    width: 100%;
 }
 
 .av-users-container h2 {
-    font-size: 1.4rem;
+    text-align: left;
+    width: 100%;
+    font-size: 1.3rem;
 }
 
 .av-users-container .users {
@@ -30,6 +40,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+    width: 100%;
 }
 
 .user-card {
@@ -39,7 +50,7 @@
     gap: 10px;
     padding: 10px;
     border-radius: 5px;
-    width: 200px;
+    width: 100%;
     text-decoration: none;
     border: 1px solid transparent;
     background-color: #f5f5f5;
@@ -67,4 +78,10 @@
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+@media screen and (max-width: 720px) {
+    .av-users-container {
+        width: 100%;
+    }
 }

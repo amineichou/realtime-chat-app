@@ -71,9 +71,14 @@ const EditProfile = () => {
       isValid = false;
     }
 
-    if (!usernameRegex.test(username) || username.length < 10) {
+    if (!usernameRegex.test(username)) {
       newErrors.username =
         "Username must be at least 10 characters and can only contain letters, numbers, '.', '_', and '-'.";
+      isValid = false;
+    }
+
+    if (username.length < 5 || username.length > 20) {
+      newErrors.username = "Username must be between 10 and 20 characters.";
       isValid = false;
     }
 

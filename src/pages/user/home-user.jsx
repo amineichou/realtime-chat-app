@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { BallTriangle } from "react-loader-spinner";
 import AvUsers from "./av-users";
+import RoomPage from "./chat/room";
 
 const HomeUser = () => {
   const user = auth.currentUser;
@@ -55,6 +56,7 @@ const HomeUser = () => {
         <div className="home-user">
           <AvUsers />
           <AvRooms />
+          {/* <RoomPage /> */}
         </div>
       )}
     </div>

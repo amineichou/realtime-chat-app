@@ -56,6 +56,11 @@ const Register = () => {
           return;
         }
 
+        if (username.length < 5 || username.length > 20) {
+          setError("Username must be between 3 and 20 characters.");
+          return
+        }
+
         if (takenUsernames.includes(username)) {
           setError("Username already in use. Please choose another.");
           return;

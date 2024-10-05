@@ -33,3 +33,9 @@
     gap: 10px;
     font-size: 0.6rem;
 }
+
+@media screen and (max-width: 450px) {
+    .message-cnt> .message {
+        font-size: 0.8rem;
+    }
+}

@@ -38,8 +38,8 @@ const MessageBox = (params) => {
           {who ? (
             ""
           ) : (
-            <Link to={`/users/${userName}`} className="user-name">
-              {userName ? userName : "unknown"}
+            <Link to={userName ? `/users/${userName}` : "#"} className="user-name">
+              {userName ? "@" + userName : "unknown"}
             </Link>
           )}
           <p className="message-time">{formattedTime}</p>

@@ -8,3 +8,10 @@
     width: 100%;
     gap: 20px;
 }
+
+
+@media screen and (max-width: 720px) {
+    .home-user {
+        flex-direction: column-reverse;
+    }
+}

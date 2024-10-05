@@ -7,11 +7,12 @@ import { Suspense, useState } from "react";
 import HomeUser from "./pages/user/home-user";
 import LoadingPage from "./components/loading-page";
 import Settings from "./pages/user/settings/settings";
-import RoomPage from "./pages/user/chat/room-page";
 import UserProfile from "./pages/user/user-profile";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import EditProfile from "./pages/user/edit-profile";
+import RoomPage from "./pages/user/chat/room-page";
+import NoPage from "./components/NoPage";
 
 const cookies = new Cookies();
 
@@ -30,7 +31,10 @@ function App() {
           />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated}/>} />
+            <Route
+              path="/login"
+              element={<Login setIsAuthenticated={setIsAuthenticated} />}
+            />
             <Route path="/register" element={<Register />} />
           </Routes>
         </div>
@@ -51,6 +55,7 @@ function App() {
             <Route path="/users/:username" element={<UserProfile />} />
             <Route path="/rooms/:roomId" element={<RoomPage />} />
             <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="*" element={<NoPage />} />
           </Routes>
         </div>
       </BrowserRouter>

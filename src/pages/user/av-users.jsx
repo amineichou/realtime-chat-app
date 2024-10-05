@@ -4,7 +4,8 @@ import { auth, db } from "../../firebase-config"; // Adjust the path to your fir
 import "./styles/av-users.css"; // Optional: Add styling for users
 import { Link } from "react-router-dom";
 
-const AvUsers = () => {
+const AvUsers = (params) => {
+  const {inRoom} = params;
   const [users, setUsers] = useState([]); // State to store users
   const [loading, setLoading] = useState(true); // State to show loading indicator
   const [searchTerm, setSearchTerm] = useState(""); // State to store search term
@@ -38,7 +39,7 @@ const AvUsers = () => {
     .slice(0, 6); // Limit the displayed users to a maximum of 6
 
   return (
-    <div className="av-users-container">
+    <div className={`av-users-container ${inRoom && "in-room"}`}>
       <h2>Available Users</h2>
       <div className="search-users">
         <input

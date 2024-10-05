@@ -1,111 +1,18 @@
 .room-page {
-    display: flex;
-    flex-direction: column;
-    height: 90vh;
+  display: flex;
 }
 
-.room-page .loading {
+.room-page .room-av {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100%;
-}
-
-.room-page .room-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
-    color: #3e3e3e;
-    border-bottom: 1px solid #dee2e6;
-}
-
-/* .room-page .room-header button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: none;
-    color: #000;
-    cursor: pointer;
-    font-size: 2rem;
-    outline: none;
-} */
-
-.room-page .room-header h1 {
-    font-size: 1.2rem;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.room-page .room-header .users {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.room-page .room-header .users p {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #3e3e3e;
-}
-
-.room-page .messages {
-    flex-grow: 1;
-    /* Take all available height */
-    display: flex;
-    flex-direction: column;
-    /* New messages at the bottom */
-    overflow-y: auto;
-    /* Allow scrolling when messages exceed container height */
-    padding: 10px;
-    /* Padding inside the messages container */
-    padding: 100px 30px;
     gap: 20px;
+    min-width: 450px;
+    border-right: 1px solid #d2d2d2;
 }
 
-.room-page .messages .room-createdAt {
-    text-align: center;
-    font-size: 0.7rem;
-    color: #3e3e3e;
-}
-
-.room-page .message-form {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ebebeb;
-    padding: 10px;
-    border-top: 1px solid #dee2e6;
-    gap: 10px;
-}
-
-
-.room-page .message-input {
-    width: 90%;
-    max-width: 600px;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    outline: none;
-}
-
-.room-page button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border: none;
-    background-color: var(--message-color);
-    color: white;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.6rem;
-    outline: none;
+@media screen and (max-width: 1120px) {
+    .room-page .room-av  {
+        display: none;
+    }
 }
