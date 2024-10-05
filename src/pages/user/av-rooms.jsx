@@ -17,7 +17,7 @@ import { IoMdTrash } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { Toast } from "../utils";
 import { ImExit } from "react-icons/im";
-
+import { CgMenuGridO } from "react-icons/cg";
 
 const NoRoomAvailable = () => {
   return (
@@ -63,6 +63,7 @@ const copyToClipboard = (toCopy) => {
 };
 
 const AvRooms = () => {
+  const [menu, setMenu] = useState("none");
   const [rooms, setRooms] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const roomsColl = collection(db, "rooms");
@@ -197,8 +198,16 @@ const AvRooms = () => {
         {rooms.length > 0 ? (
           rooms.map((room) => (
             <div className="room-box" key={room.roomId}>
-              <Link to={`/rooms/${room.roomId}`}>{room.name}</Link>
-              <div className="room-box-set">
+              <Link
+                to={`/rooms/${room.roomId}`}
+                style={{ display: menu === "flex" ? "flex" : "none" }}
+              >
+                {room.name}
+              </Link>
+              <div
+                className="room-box-set"
+                style={{ display: menu === "flex" ? "none" : "flex" }}
+              >
                 <button onClick={() => copyToClipboard(room.roomId)}>
                   <IoCopySharp />
                 </button>
@@ -240,6 +249,14 @@ const AvRooms = () => {
                   </span>
                 </div>
               </div>
+              <button
+                className="menu"
+                onClick={() => {
+                  setMenu(menu === "none" ? "flex" : "none");
+                }}
+              >
+                <CgMenuGridO />
+              </button>
             </div>
           ))
         ) : (

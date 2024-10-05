@@ -11,6 +11,7 @@ import RoomPage from "./pages/user/chat/room-page";
 import UserProfile from "./pages/user/user-profile";
 import Register from "./pages/register";
 import Login from "./pages/login";
+import EditProfile from "./pages/user/edit-profile";
 
 const cookies = new Cookies();
 
@@ -47,8 +48,9 @@ function App() {
           <Routes>
             <Route path="/" element={<HomeUser />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/users/:userId" element={<UserProfile />} />
+            <Route path="/users/:username" element={<UserProfile />} />
             <Route path="/rooms/:roomId" element={<RoomPage />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
           </Routes>
         </div>
       </BrowserRouter>

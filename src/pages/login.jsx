@@ -21,13 +21,20 @@ const Login = ({ setIsAuthenticated }) => {
     setIsLoading(true); // Start loading
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       cookies.set("auth-token", userCredential.user.refreshToken); // Store token in cookies
       setIsAuthenticated(true);
       navigate("/"); // Redirect to home page
     } catch (error) {
       // Improved error handling based on Firebase Auth errors
-      if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
+      if (
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
         setError("Invalid email or password. Please try again.");
       } else {
         setError("An error occurred during sign-in. Please try again later.");
@@ -46,21 +53,27 @@ const Login = ({ setIsAuthenticated }) => {
       const userDocRef = doc(db, "users", result.user.uid);
       const userDoc = await getDoc(userDocRef); // Corrected method for getting a document
 
+      // get a number bettwen 0 and 10
+      const random = Math.floor(Math.random() * 10);
+
       // Add user to Firestore if not already present
       if (!userDoc.exists()) {
         await setDoc(userDocRef, {
           id: result.user.uid,
-          username: result.user.displayName
-            .replace(/\s+/g, "_")
-            .toLowerCase()
-            .slice(0, 5) +
+          username:
+            result.user.displayName
+              .replace(/\s+/g, "_")
+              .toLowerCase()
+              .slice(0, 5) +
             Math.floor(Math.random() * 1000) +
             "_" +
             result.user.uid.slice(0, 5),
           email: result.user.email,
+          fullName: result.user.displayName,
+          sex: "male",
           dob: "",
           createdAt: serverTimestamp(),
-          image: "/images/cute-cat.jpeg", // Default profile image
+          image: "/images/default/" + random + ".jpeg",
         });
       }
 
@@ -93,15 +106,22 @@ const Login = ({ setIsAuthenticated }) => {
             required
           />
         </div>
-        {error && <p className="error-message">{error}</p>} {/* Display error message */}
+        {error && <p className="error-message">{error}</p>}{" "}
+        {/* Display error message */}
         <button type="submit" disabled={isLoading}>
-          {isLoading ? "Signing in..." : "Sign In"} {/* Show loading indicator */}
+          {isLoading ? "Signing in..." : "Sign In"}{" "}
+          {/* Show loading indicator */}
         </button>
       </form>
       <div className="else">
-        <button className="google-btn" onClick={signInWithGoogle} disabled={isLoading}>
+        <button
+          className="google-btn"
+          onClick={signInWithGoogle}
+          disabled={isLoading}
+        >
           <FcGoogle />
-          {isLoading ? "Processing..." : "Continue with Google"} {/* Handle Google button state */}
+          {isLoading ? "Processing..." : "Continue with Google"}{" "}
+          {/* Handle Google button state */}
         </button>
         <p>
           Don't have an account? <Link to={"/register"}>Register</Link>

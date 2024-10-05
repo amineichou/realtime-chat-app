@@ -53,16 +53,17 @@
 
 .nav-bar .usr .usr-sets.notification p{
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -2px;
+    right: -2px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--primary-color);
     color: #fff;
+    border: 2px solid #fff;
     font-size: 0.8rem;
 }
 

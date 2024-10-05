@@ -3,6 +3,11 @@
     gap: 10px;
 }
 
+.message-cnt .message a {
+    text-decoration: none;
+    color: #636363;
+}
+
 .message-cnt> .message {
     display: flex;
     flex-direction: column;
@@ -15,14 +20,14 @@
     font-size: 1.1rem;
 }
 
-.message-cnt>.user-pic {
+.message-cnt .user-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.message-cnt>.message .message-info {
+.message-cnt .message .message-info {
     display: flex;
     justify-content: space-between;
     gap: 10px;

@@ -2,27 +2,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     padding: 30px;
 }
 
 .user-profile img {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     padding: 5px;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--message-color);
+}
+
+.user-profile .header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-profile .header .username {
+    text-align: center;
+    color: var(--message-color);
+    font-size: 0.8rem;
 }
 
 .user-profile h1 {
-    font-size: 2rem;
-    color: var(--primary-color);
-}
-
-.user-profile p,
-.user-profile h2 {
-    font-size: 1rem;
-    color: #5b5b5b;
+    font-size: 1.8rem;
+    color: #000;
 }
 
 .user-profile .add-profile {
@@ -31,6 +39,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
+    padding: 20px 0;
 }
 
 .user-profile .add-profile button {
@@ -65,4 +74,13 @@
     border: 2px solid var(--message-color);
     background: none;
     color: var(--message-color);
+}
+
+.loading-page-user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 30px;
+    height: 100%;
+    width: 100%;
 }

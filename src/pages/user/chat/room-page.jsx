@@ -77,17 +77,38 @@ const RoomPage = () => {
     checkRoomName();
   }, [roomId, auth.currentUser]);
 
+  // Fetch user data (including profile image) from the users collection
+  const fetchUserData = async (userId) => {
+    try {
+      const usersCollection = collection(db, "users");
+      const userQuery = query(usersCollection, where("id", "==", userId));
+      const querySnapshot = await getDocs(userQuery);
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].data();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+      return null;
+    }
+  };
+
   // Handle message form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newMessage.trim() === "") return;
 
     try {
+      // Fetch the current user's data from the Firestore `users` collection
+      const currentUserData = await fetchUserData(auth.currentUser.uid);
+
       await addDoc(collection(db, "messages"), {
         message: newMessage.trim(),
         createdAt: serverTimestamp(),
         user: auth.currentUser.uid,
-        userName: auth.currentUser.displayName || "Anonymous",
+        userName: currentUserData?.fullName || "Anonymous",
+        userPhoto: currentUserData?.image || null, // Fetch the user's profile image from the users collection
         roomId,
       });
 
@@ -108,13 +129,28 @@ const RoomPage = () => {
       where("roomId", "==", roomId)
     );
 
-    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-      const fetchedMessages = snapshot.docs
-        .map((doc) => ({ id: doc.id, ...doc.data() }))
-        .filter((msg) => msg.createdAt) // Ensure valid createdAt timestamp
+    const unsubscribe = onSnapshot(queryMessages, async (snapshot) => {
+      // Fetch messages and fetch each user's profile image from Firestore
+      const fetchedMessages = await Promise.all(
+        snapshot.docs.map(async (doc) => {
+          const messageData = doc.data();
+          const userData = await fetchUserData(messageData.user);
+
+          return {
+            id: doc.id,
+            ...messageData,
+            userPhoto: userData?.image || null,
+            userName: userData?.fullName || "Anonymous",
+          };
+        })
+      );
+
+      // Sort messages by their creation timestamp
+      const sortedMessages = fetchedMessages
+        .filter((msg) => msg.createdAt)
         .sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis());
 
-      setMessages(fetchedMessages);
+      setMessages(sortedMessages);
     });
 
     return () => unsubscribe();
@@ -130,19 +166,15 @@ const RoomPage = () => {
 
   return (
     <div className="room-page">
-      
       {isRoomAvailable ? (
         <>
           <div className="room-header">
             <h1>{roomInfo.name || "Room"}</h1>
-            {/* <button>
-              <GiHamburgerMenu />
-            </button> */}
           </div>
           <div className="messages" ref={messagesRef}>
             <p className="room-createdAt">
               {
-                // createAt
+                // createdAt
                 "Created at: " +
                   new Date(roomInfo.createdAt?.seconds * 1000).toLocaleString()
               }
@@ -155,7 +187,7 @@ const RoomPage = () => {
                   who={message.user === auth.currentUser.uid}
                   userName={message.userName}
                   time={message.createdAt}
-                  profileImage="https://via.placeholder.com/150" // Placeholder for profile image
+                  profileImage={message.userPhoto}
                 />
               ))
             ) : (

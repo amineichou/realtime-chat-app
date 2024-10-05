@@ -120,7 +120,7 @@ const Notifications = () => {
 
   return (
     <div className="notifications-container">
-      {renderNotifications()} {/* Render notifications or loading state */}
+      {renderNotifications()}
     </div>
   );
 };

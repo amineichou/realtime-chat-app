@@ -9,6 +9,10 @@
     color: #fff;
 }
 
+.home-user .myrooms h2 {
+    font-size: 1.4rem;
+}
+
 .home-user .myrooms .myrooms-list {
     display: flex;
     flex-direction: column;
@@ -78,7 +82,9 @@
 }
 
 .home-user .myrooms .myrooms-list .room-box .room-box-set {
-    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+    width: 100%;
     gap: 10px;
 }
 

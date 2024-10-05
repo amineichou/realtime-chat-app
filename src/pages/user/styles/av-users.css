@@ -1,0 +1,70 @@
+.av-users-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #78c2fa;
+    color: #fff;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.av-users-container .search-users {
+    display: flex;
+}
+
+.av-users-container .search-users input {
+    padding: 14px;
+    border-radius: 5px;
+    border: none;
+    width: 200px;
+}
+
+.av-users-container h2 {
+    font-size: 1.4rem;
+}
+
+.av-users-container .users {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    background-color: #f5f5f5;
+    transition: all 0.3s ease-in-out;
+}
+
+.user-card:hover {
+    background-color: #e7e7e7;
+    border: 1px solid #000;
+}
+
+.user-card p {
+    width: 120px;
+    font-size: 0.8rem;
+    color: #000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.user-card img {
+    padding: 2px;
+    border: 2px solid var(--message-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}

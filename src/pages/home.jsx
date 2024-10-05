@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import "../styles-global/home.css";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import MessageBox from "../components/message-box";
-import Login from "./login";
-import Register from "./register";
 
 const Home = () => {
   const text = "Try This Crazy Chat App".split(" ");

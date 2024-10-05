@@ -1,14 +1,10 @@
-.home-user {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+.home-user-cn {
     padding: 30px;
+    width: 100%;
 }
 
-.home-user .rooms-gen {
+.home-user {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     width: 100%;
     gap: 20px;
 }

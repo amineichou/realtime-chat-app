@@ -1,0 +1,61 @@
+.edit-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 30px;
+}
+
+.edit-profile-container .error {
+    color: red;
+    font-size: 14px;
+}
+
+.edit-profile-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.edit-profile-container form .profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.edit-profile-container form .profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.edit-profile-container form .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-profile-container form .input-group select,
+.edit-profile-container form .input-group input {
+    padding: 15px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.edit-profile-container form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.edit-profile-container form button:hover {
+    background-color: #0056b3;
+}

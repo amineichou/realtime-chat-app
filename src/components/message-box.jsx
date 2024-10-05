@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles-global/message-box.css";
+import { Link } from "react-router-dom";
 
 const MessageBox = (params) => {
   const { who, message, profileImage, userName, time } = params;
@@ -13,7 +14,11 @@ const MessageBox = (params) => {
 
   return (
     <div className="message-cnt">
-      {!who && <img src={profileImage} alt="user" className="user-pic" />}
+      {!who && (
+        <Link to={`/users/${userName}`}>
+          {<img src={profileImage} alt="user" className="user-pic" />}
+        </Link>
+      )}
       <div
         className="message"
         style={{
@@ -33,7 +38,9 @@ const MessageBox = (params) => {
           {who ? (
             ""
           ) : (
-            <p className="user-name">{userName ? userName : "unknown"}</p>
+            <Link to={`/users/${userName}`} className="user-name">
+              {userName ? userName : "unknown"}
+            </Link>
           )}
           <p className="message-time">{formattedTime}</p>
         </div>

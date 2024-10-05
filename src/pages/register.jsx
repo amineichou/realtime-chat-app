@@ -72,14 +72,19 @@ const Register = () => {
         password
       );
 
+      // get a number bettwen 0 and 10
+      const random = Math.floor(Math.random() * 10);
+
       // Save user info to Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
         id: userCredential.user.uid,
+        fullName: userCredential.user.displayName,
+        sex: "male",
         username,
         email,
         dob,
         createdAt: serverTimestamp(),
-        image: "/images/cute-cat.jpeg"
+        image: "/images/default/" + random + ".jpeg",
       });
 
       // Update the usernames document
