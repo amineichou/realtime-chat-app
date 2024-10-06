@@ -1,0 +1,47 @@
+.weather-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 340px;
+    padding: 20px;
+}
+
+.weather-component h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #303030;
+    width: 100%;
+}
+
+.weather-component .weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.weather-component .weather-info img {
+    width: 100px;
+    height: 100px;
+}
+
+.weather-component .weather-info h3 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+.weather-component .weather-info p {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #666;
+}
+
+.weather-component .error-message {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: red;
+    text-align: center;
+}

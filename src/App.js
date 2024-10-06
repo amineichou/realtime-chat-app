@@ -13,6 +13,7 @@ import Login from "./pages/login";
 import EditProfile from "./pages/user/edit-profile";
 import RoomPage from "./pages/user/chat/room-page";
 import NoPage from "./components/NoPage";
+import DmPage from "./pages/user/chat/dm-page";
 
 const cookies = new Cookies();
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="/users/:username" element={<UserProfile />} />
             <Route path="/rooms/:roomId" element={<RoomPage />} />
             <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/dm/:dmId" element={<DmPage />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
         </div>

@@ -31,10 +31,8 @@ const EditProfile = () => {
     const fetchUserData = async () => {
       const currentUser = auth.currentUser;
       if (currentUser) {
-        // Fetch additional data (fullName, sex, dob) from Firestore
         const userDocRef = doc(db, "users", currentUser.uid);
         const userDoc = await getDoc(userDocRef);
-        console.log(userDoc.data());
         if (userDoc.exists()) {
           const data = userDoc.data();
           setFullName(data.fullName || "");
@@ -52,11 +50,20 @@ const EditProfile = () => {
   // Handle image upload
   const handlePhotoUpload = async () => {
     if (newPhoto) {
+      const MAX_FILE_SIZE_MB = 2; // 2MB limit
+      const fileSizeMB = newPhoto.size / (1024 * 1024); // Convert to MB
+
+      if (fileSizeMB > MAX_FILE_SIZE_MB) {
+        setErrors({ photo: "Image size cannot exceed 2MB." });
+        return null; // Don't proceed with the upload
+      }
+
       const storageRef = ref(storage, `profilePhotos/${auth.currentUser.uid}`);
       await uploadBytes(storageRef, newPhoto);
       const newPhotoURL = await getDownloadURL(storageRef);
-      setPhotoURL(newPhotoURL);
+      return newPhotoURL; // Return the new photo URL after upload
     }
+    return photoURL; // Return existing photoURL if no new photo
   };
 
   // Validate the inputs
@@ -84,6 +91,11 @@ const EditProfile = () => {
 
     if (!dob) {
       newErrors.dob = "Date of birth is required.";
+      isValid = false;
+    }
+
+    if (!photoURL && !newPhoto) {
+      newErrors.photo = "Profile photo is unvalid.";
       isValid = false;
     }
 
@@ -128,13 +140,19 @@ const EditProfile = () => {
       }
 
       // Handle image upload (only upload if newPhoto is selected)
-      await handlePhotoUpload();
+      const updatedPhotoURL = await handlePhotoUpload();
 
-      // Save additional info (fullName, sex, dob, username) in Firestore
+      // Stop if image upload failed (due to size limit)
+      if (!updatedPhotoURL) {
+        setIsLoading(false);
+        return;
+      }
+
+      // Save additional info (fullName, sex, dob, username, image) in Firestore
       const userDocRef = doc(db, "users", auth.currentUser.uid);
       await setDoc(
         userDocRef,
-        { fullName, sex, dob, username, image: photoURL }, // Merge new profile data
+        { fullName, sex, dob, username, image: updatedPhotoURL }, // Use the updated photo URL
         { merge: true }
       );
 
@@ -162,7 +180,12 @@ const EditProfile = () => {
       <form onSubmit={handleUpdateProfile}>
         <div className="profile-picture">
           <img src={photoURL || "default-profile.png"} alt="profile" />
-          <input type="file" onChange={(e) => setNewPhoto(e.target.files[0])} />
+          <input
+            type="file"
+            onChange={(e) => setNewPhoto(e.target.files[0])}
+            disabled={isLoading} // Disable input while loading
+          />
+          {errors.photo && <p className="error">{errors.photo}</p>}
         </div>
         <div className="input-group">
           <label>Username (min 10 characters)</label>

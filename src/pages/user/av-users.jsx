@@ -60,7 +60,7 @@ const AvUsers = (params) => {
                 className="user-card"
               >
                 {user.image && <img src={user.image} alt={user.fullName} />}{" "}
-                <p>{user.username || "N/A"}</p>
+                <p>@{user.username || "N/A"}</p>
               </Link>
             )
         )}

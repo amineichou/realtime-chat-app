@@ -3,6 +3,19 @@
     width: 100%;
 }
 
+.home-user-cn .home-usr-all {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.home-user-cn .home-usr-all .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
 .home-user {
     display: flex;
     width: 100%;
@@ -11,6 +24,10 @@
 
 
 @media screen and (max-width: 720px) {
+    .home-user-cn .home-usr-all .header {
+        flex-direction: column-reverse;
+    }
+
     .home-user {
         flex-direction: column-reverse;
     }

@@ -1,3 +1,4 @@
+.dm,
 .room {
     position: relative;
     box-sizing: border-box;
@@ -7,6 +8,7 @@
     width: 100%;
 }
 
+.dm .loading,
 .room .loading {
     display: flex;
     justify-content: center;
@@ -14,6 +16,7 @@
     height: 100%;
 }
 
+.dm .dm-header,
 .room .room-header {
     display: flex;
     justify-content: center;
@@ -34,6 +37,7 @@
     outline: none;
 } */
 
+.dm .dm-header h1,
 .room .room-header h1 {
     font-size: 1.2rem;
     text-align: center;
@@ -42,18 +46,21 @@
     text-overflow: ellipsis;
 }
 
+.dm .dm-header .users,
 .room .room-header .users {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+.dm .dm-header .users p,
 .room .room-header .users p {
     font-size: 0.7rem;
     font-weight: 600;
     color: #3e3e3e;
 }
 
+.dm .messages,
 .room .messages {
     flex-grow: 1;
     /* Take all available height */
@@ -68,12 +75,15 @@
     gap: 20px;
 }
 
+
+.dm .messages .dm-createdAt,
 .room .messages .room-createdAt {
     text-align: center;
     font-size: 0.7rem;
     color: #3e3e3e;
 }
 
+.dm .message-form,
 .room .message-form {
     position: fixed;
     display: flex;
@@ -89,11 +99,13 @@
 }
 
 @media screen and (max-width: 1120px) {
+    .dm .message-form,
     .room .message-form {
         justify-content: center;
     }
 }
 
+.dm .message-input,
 .room .message-input {
     width: 90%;
     max-width: 720px;
@@ -104,6 +116,7 @@
     outline: none;
 }
 
+.dm button,
 .room button {
     display: flex;
     align-items: center;

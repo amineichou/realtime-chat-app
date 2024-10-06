@@ -1,0 +1,56 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    gap: 20px;
+}
+
+.settings-container h2 {
+    text-align: left;
+    width: 100%;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.settings-container .settings-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.settings-container .settings-list button {
+    padding: 1em;
+    background: #e9e9e9;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.settings-container .settings-list .delete-account:hover {
+    background: var(--primary-color);
+    color: #e9e9e9;
+}
+
+.settings-container .settings-list .change-password:hover {
+    background: var(--message-color);
+    color: #e9e9e9;
+}
+
+.settings-container .footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    color: #333;
+}

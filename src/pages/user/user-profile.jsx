@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { TiUserAdd } from "react-icons/ti";
 import { AiFillMessage } from "react-icons/ai";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
 import { BallTriangle } from "react-loader-spinner";
 
@@ -65,6 +65,40 @@ const UserProfile = () => {
     );
   }
 
+  // Function to create or fetch an existing DM
+  const createDm = async (user1Id, user2Id) => {
+    try {
+      const dmsRef = collection(db, "dms");
+      const dmQuery = query(dmsRef, where("users", "array-contains", user1Id));
+
+      const snapshot = await getDocs(dmQuery);
+      let dm = null;
+
+      // Check if a DM already exists between user1Id and user2Id
+      snapshot.forEach((doc) => {
+        const users = doc.data().users;
+        if (users.includes(user2Id)) {
+          dm = { id: doc.id, ...doc.data() };
+        }
+      });
+
+      if (!dm) {
+        // No existing DM, so create a new one
+        const dmDoc = await addDoc(dmsRef, {
+          users: [user1Id, user2Id],
+          createdAt: new Date(),
+        });
+        dm = { id: dmDoc.id };
+      }
+
+      // Redirect to the DM page with the DM ID
+      navigate(`/dm/${dm.id}`);
+    } catch (error) {
+      console.error("Error creating DM:", error);
+      throw error;
+    }
+  };
+
   if (error) {
     return <div>{error}</div>; // Show error message if any
   }
@@ -97,7 +131,10 @@ const UserProfile = () => {
             </button>
           ) : (
             <>
-              <button className="message">
+              <button
+                className="message"
+                onClick={() => createDm(auth.currentUser.uid, userData.id)}
+              >
                 Message
                 <AiFillMessage />
               </button>

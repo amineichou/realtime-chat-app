@@ -10,6 +10,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState(""); // State for full name
   const [dob, setDob] = useState(new Date());
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const Register = () => {
 
         if (username.length < 5 || username.length > 20) {
           setError("Username must be between 3 and 20 characters.");
-          return
+          return;
         }
 
         if (takenUsernames.includes(username)) {
@@ -77,13 +78,13 @@ const Register = () => {
         password
       );
 
-      // get a number bettwen 0 and 10
+      // get a number between 0 and 10
       const random = Math.floor(Math.random() * 10);
 
       // Save user info to Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
         id: userCredential.user.uid,
-        fullName: userCredential.user.displayName,
+        fullName, // Save full name
         sex: "male",
         username,
         email,
@@ -127,6 +128,15 @@ const Register = () => {
       <h1>Register</h1>
       <form onSubmit={handleRegister}>
         <div className="form-group">
+          <label>Full Name</label>
+          <input
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
           <label>Username</label>
           <input
             type="text"
@@ -162,15 +172,6 @@ const Register = () => {
             required
           />
         </div>
-        {/* <div className="form-group">
-          <label>Conferm Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div> */}
         {error && <p className="error-message">{error}</p>}
         <button type="submit">Register</button>
       </form>
