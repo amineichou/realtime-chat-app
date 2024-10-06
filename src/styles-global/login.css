@@ -109,3 +109,16 @@
     width: 20px;
     height: 20px;
 }
+
+.show-password {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.show-password span {
+    width: 20px;
+    font-size: 1rem;
+    color: #4f4f4f;
+}

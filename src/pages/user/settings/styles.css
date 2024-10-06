@@ -4,11 +4,12 @@
     align-items: center;
     justify-content: center;
     padding: 30px;
+    width: 100%;
     gap: 20px;
 }
 
 .settings-container h2 {
-    text-align: left;
+    text-align: center;
     width: 100%;
     font-size: 2rem;
     font-weight: 600;
@@ -19,6 +20,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
     gap: 20px;
 }
@@ -31,6 +33,8 @@
     font-size: 1.2rem;
     font-weight: 600;
     color: #333;
+    width: 100%;
+    max-width: 720px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
@@ -51,6 +55,33 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 100px 0;
     gap: 10px;
     color: #333;
+}
+
+.settings-container .change-password-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.settings-container .change-password-group input {
+    padding: 1em;
+    width: 100%;
+    max-width: 720px;
+    background: #ffffff;
+    border: 2px solid #e9e9e9;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    outline: none;
+}
+
+.settings-container .change-password-group input:focus {
+    border: 2px solid var(--message-color);
 }

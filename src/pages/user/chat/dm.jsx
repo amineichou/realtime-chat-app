@@ -112,6 +112,12 @@ const Dm = (params) => {
     e.preventDefault();
     if (newMessage.trim() === "") return;
 
+    if (otherUser.status === "deleted") {
+      console.log("Cannot send message to a deleted user.");
+      return;
+    }
+  
+
     try {
       const currentUserData = await fetchUserData(auth.currentUser.uid);
 
@@ -187,7 +193,9 @@ const Dm = (params) => {
         <>
           <div className="dm-header">
             <h1>
-              {otherUser?.fullName || otherUser?.username || "Direct Messages"}
+              {otherUser.status === "deleted"
+                ? "Deleted User"
+                : otherUser?.fullName || otherUser?.username}
             </h1>
           </div>
           <div className="messages" ref={messagesRef}>
@@ -204,6 +212,7 @@ const Dm = (params) => {
                   userName={message.userName}
                   time={message.createdAt}
                   profileImage={message.userPhoto}
+                  status={otherUser.status}
                 />
               ))
             ) : (
@@ -222,9 +231,23 @@ const Dm = (params) => {
                 adjustTextAreaHeight();
               }}
               rows="1"
-              style={{ resize: "none", overflow: "hidden" }}
+              disabled={otherUser.status === "deleted"}
+              style={{
+                resize: "none",
+                overflow: "hidden",
+                backgroundColor: "#fff",
+                cursor:
+                  otherUser.status === "deleted" ? "not-allowed" : "pointer",
+              }}
             />
-            <button type="submit" disabled={!newMessage.trim()}>
+            <button
+              style={{
+                cursor:
+                  otherUser.status === "deleted" ? "not-allowed" : "pointer",
+              }}
+              type="submit"
+              disabled={!newMessage.trim() || otherUser.status === "deleted"}
+            >
               <IoSend />
             </button>
           </form>

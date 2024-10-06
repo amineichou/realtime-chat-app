@@ -6,6 +6,7 @@ import "../styles-global/login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const cookies = new Cookies(); // Moved cookies initialization outside the component
 
@@ -14,6 +15,7 @@ const Login = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loading state for form submission
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -74,6 +76,7 @@ const Login = ({ setIsAuthenticated }) => {
           dob: "",
           createdAt: serverTimestamp(),
           image: "/images/default/" + random + ".jpeg",
+          status: "active",
         });
       }
 
@@ -98,9 +101,14 @@ const Login = ({ setIsAuthenticated }) => {
           />
         </div>
         <div>
-          <label>Password</label>
+          <div className="show-password">
+            <label>Password</label>
+            <span onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -120,7 +128,7 @@ const Login = ({ setIsAuthenticated }) => {
           disabled={isLoading}
         >
           <FcGoogle />
-          {isLoading ? "Processing..." : "Continue with Google"}{" "}
+          Continue with Google
           {/* Handle Google button state */}
         </button>
         <p>

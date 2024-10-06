@@ -50,7 +50,7 @@ const HomeUser = () => {
         <div className="setup-profile-message">
           <h2>
             Please finish setting up your profile.{" "}
-            <Link to={"/settings"}>HERE</Link>{" "}
+            <Link to={"/edit-profile"}>HERE</Link>{" "}
           </h2>
         </div>
       ) : (

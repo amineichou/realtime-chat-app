@@ -8,3 +8,11 @@
     top: 0;
     z-index: 100;
 }
+
+
+@media screen and (max-width: 768px) {
+    .loading-page svg{
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -160,9 +160,10 @@ const EditProfile = () => {
         title: "Good job!",
         text: "Profile updated successfully!",
         icon: "success",
+      }).finally(() => {
+        navigate("/");
+        window.location.reload();
       });
-
-      navigate("/"); // Redirect after successful update
     } catch (error) {
       Swal.fire({
         title: "Error",

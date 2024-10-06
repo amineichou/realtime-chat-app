@@ -53,7 +53,7 @@ const AvUsers = (params) => {
         {filteredUsers.map(
           (user) =>
             // Display user details but not the current user
-            user.id !== auth.currentUser.uid && (
+            (user.id !== auth.currentUser.uid && user.status !== "deleted")&& (
               <Link
                 to={`/users/${user.username}`}
                 key={user.id}

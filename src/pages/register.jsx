@@ -5,14 +5,16 @@ import { db } from "../firebase-config"; // Import Firestore instance
 import { doc, serverTimestamp, setDoc, getDoc } from "firebase/firestore"; // Import Firestore methods
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState(""); // State for full name
-  const [dob, setDob] = useState(new Date());
+  const [dob, setDob] = useState(""); // Initialize as empty string
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const calculateAge = (dob) => {
@@ -58,7 +60,7 @@ const Register = () => {
         }
 
         if (username.length < 5 || username.length > 20) {
-          setError("Username must be between 3 and 20 characters.");
+          setError("Username must be between 5 and 20 characters.");
           return;
         }
 
@@ -78,7 +80,12 @@ const Register = () => {
         password
       );
 
-      // get a number between 0 and 10
+      if (!userCredential.user) {
+        setError("Failed to create user");
+        return;
+      }
+
+      // Get a random number between 0 and 10
       const random = Math.floor(Math.random() * 10);
 
       // Save user info to Firestore
@@ -91,6 +98,7 @@ const Register = () => {
         dob,
         createdAt: serverTimestamp(),
         image: "/images/default/" + random + ".jpeg",
+        status: "active",
       });
 
       // Update the usernames document
@@ -164,9 +172,14 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label>New Password</label>
+          <div className="show-password">
+            <label>New Password</label>
+            <span onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

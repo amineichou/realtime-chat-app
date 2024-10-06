@@ -99,11 +99,11 @@ const AvDms = (params) => {
               >
                 <div className="dm-info">
                   <img
-                    src={user?.image || "/images/profile-f.jpeg"}
+                    src={user?.status !== "deleted" ? (user?.image || "/images/profile-f.jpeg") : ""}
                     alt={user?.fullName || "User"}
                     className="dm-user-image"
                   />
-                  <p>{user?.fullName || "Anonymous"}</p>
+                  <p>{user?.status !== "deleted" ? (user?.fullName || "Anonymous") : "Deleted User"}</p>
                 </div>
                 <div className="dm-time">
                   <p className="date">

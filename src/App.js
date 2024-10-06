@@ -52,7 +52,7 @@ function App() {
           />
           <Routes>
             <Route path="/" element={<HomeUser />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings" element={<Settings setIsAuthenticated={setIsAuthenticated}/>} />
             <Route path="/users/:username" element={<UserProfile />} />
             <Route path="/rooms/:roomId" element={<RoomPage />} />
             <Route path="/edit-profile" element={<EditProfile />} />

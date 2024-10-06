@@ -3,7 +3,7 @@ import "../styles-global/message-box.css";
 import { Link } from "react-router-dom";
 
 const MessageBox = (params) => {
-  const { who, message, profileImage, userName, time } = params;
+  const { who, message, profileImage, userName, time, status } = params;
 
   // Format the Firebase timestamp to a human-readable format
   const formattedTime = new Date(time?.toDate()).toLocaleString("en-US", {
@@ -14,7 +14,7 @@ const MessageBox = (params) => {
 
   return (
     <div className="message-cnt">
-      {!who && (
+      {(!who && status !== "deleted") && (
         <Link to={`/users/${userName}`}>
           {<img src={profileImage} alt="user" className="user-pic" />}
         </Link>

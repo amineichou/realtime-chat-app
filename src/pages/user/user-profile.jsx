@@ -107,12 +107,23 @@ const UserProfile = () => {
     <div className="user-profile">
       <div className="header">
         <img
-          src={userData?.image || "/images/profile-f.jpeg"} // Use user's photoURL if available, else default
+          src={
+            userData?.status !== "deleted" ? userData?.image : "/default/10.jpeg"
+          }
           alt={userData?.fullName || "Anonymous"}
         />
         <div className="username">
-          <p>@{userData?.username || username}</p>
-          <h1>{userData?.fullName || "Anonymous"}</h1>
+          <p>
+            @
+            {userData?.status !== "deleted"
+              ? userData?.username || ""
+              : "DeletedUser"}
+          </p>
+          <h1>
+            {userData?.status !== "deleted"
+              ? userData?.fullName || "Anonymous"
+              : "Deleted User"}
+          </h1>
         </div>
       </div>
       {/* {userData?.id === auth.currentUser.uid && (
@@ -121,31 +132,38 @@ const UserProfile = () => {
           <p>{userData?.dob || "Unknown"}</p>
         </div>
       )} */}
-      <div className="add-profile">
-        {
-          // only edit profile if the user is the current user
-          userData?.id === auth.currentUser.uid ? (
-            <button className="edit" onClick={() => navigate("/edit-profile")}>
-              Edit Profile
-              <MdEdit />
-            </button>
-          ) : (
-            <>
+      {userData?.status !== "deleted" && (
+        <div className="add-profile">
+          {
+            // only edit profile if the user is the current user
+            userData?.id === auth.currentUser.uid ? (
               <button
-                className="message"
-                onClick={() => createDm(auth.currentUser.uid, userData.id)}
+                className="edit"
+                onClick={() => navigate("/edit-profile")}
+                aria-label="Edit Profile"
               >
-                Message
-                <AiFillMessage />
+                Edit Profile
+                <MdEdit />
               </button>
-              <button className="add">
-                Add friend
-                <TiUserAdd />
-              </button>
-            </>
-          )
-        }
-      </div>
+            ) : (
+              <>
+                <button
+                  className="message"
+                  onClick={() => createDm(auth.currentUser.uid, userData.id)}
+                  aria-label="Message User"
+                >
+                  Message
+                  <AiFillMessage />
+                </button>
+                <button className="add" aria-label="Add Friend">
+                  Add friend
+                  <TiUserAdd />
+                </button>
+              </>
+            )
+          }
+        </div>
+      )}
     </div>
   );
 };
