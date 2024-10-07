@@ -12,7 +12,6 @@ const LoadingPage = () => {
         color="#2B9FFF"
         backgroundColor="#e20b0b"
       />
-      Loading....
     </div>
   );
 };

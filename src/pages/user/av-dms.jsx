@@ -8,16 +8,14 @@ import {
   doc,
 } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
-import { Link, useNavigate } from "react-router-dom";
-import { BallTriangle } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 import "./styles/av-dms.css";
 
 const AvDms = (params) => {
-  const {inRoom, urlDmId} = params;
+  const { inRoom, urlDmId } = params;
   const [dms, setDms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDms = async () => {
@@ -75,8 +73,8 @@ const AvDms = (params) => {
 
   if (loading) {
     return (
-      <div className="loading-page">
-        <BallTriangle visible={true} height={100} width={100} color="#2B9FFF" />
+      <div className={`av-dms ${inRoom && "in-room"}`}>
+        <div className="dm-list">Loading...</div>
       </div>
     );
   }
@@ -99,11 +97,19 @@ const AvDms = (params) => {
               >
                 <div className="dm-info">
                   <img
-                    src={user?.status !== "deleted" ? (user?.image || "/images/profile-f.jpeg") : ""}
+                    src={
+                      user?.status !== "deleted"
+                        ? user?.image || "/images/profile-f.jpeg"
+                        : ""
+                    }
                     alt={user?.fullName || "User"}
                     className="dm-user-image"
                   />
-                  <p>{user?.status !== "deleted" ? (user?.fullName || "Anonymous") : "Deleted User"}</p>
+                  <p>
+                    {user?.status !== "deleted"
+                      ? user?.fullName || "Anonymous"
+                      : "Deleted User"}
+                  </p>
                 </div>
                 <div className="dm-time">
                   <p className="date">
@@ -120,7 +126,10 @@ const AvDms = (params) => {
       ) : (
         <div className="no-dms">
           <p>No DMs available</p>
-          <img src="https://cdni.iconscout.com/illustration/premium/thumb/search-not-found-illustration-download-in-svg-png-gif-file-formats--zoom-logo-404-error-empty-pack-design-development-illustrations-6632131.png?f=webp" alt="no dms" />
+          <img
+            src="https://cdni.iconscout.com/illustration/premium/thumb/search-not-found-illustration-download-in-svg-png-gif-file-formats--zoom-logo-404-error-empty-pack-design-development-illustrations-6632131.png?f=webp"
+            alt="no dms"
+          />
         </div>
       )}
     </div>

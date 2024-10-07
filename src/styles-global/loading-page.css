@@ -1,12 +1,12 @@
 .loading-page {
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
 

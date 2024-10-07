@@ -20,7 +20,10 @@ const Notifications = () => {
   // Fetch notifications from Firestore
   useEffect(() => {
     const notificationsColl = collection(db, "notifications");
-    const notificationsQuery = query(notificationsColl, orderBy("createdAt", "desc"));
+    const notificationsQuery = query(
+      notificationsColl,
+      orderBy("createdAt", "desc")
+    );
 
     const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
       const fetchedNotifications = snapshot.docs.map((doc) => ({
@@ -54,7 +57,11 @@ const Notifications = () => {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         // If document exists, update it
-        const notificationDoc = doc(db, "notifications", querySnapshot.docs[0].id);
+        const notificationDoc = doc(
+          db,
+          "notifications",
+          querySnapshot.docs[0].id
+        );
 
         await updateDoc(notificationDoc, {
           readBy: arrayUnion(userId), // Add userId to readBy array
@@ -88,11 +95,19 @@ const Notifications = () => {
   // Render loading state or notifications
   const renderNotifications = () => {
     if (loading) {
-      return <p>Loading notifications...</p>;
+      return (
+        <div className="loading-not">
+          <p>Loading notification...</p>
+        </div>
+      );
     }
 
     if (notifications.length === 0) {
-      return <p>No notifications yet.</p>;
+      return (
+        <div className="loading-not">
+          <p>No notifications yet.</p>
+        </div>
+      );
     }
 
     return notifications.map((notification) => {
@@ -102,7 +117,9 @@ const Notifications = () => {
         <div
           key={notification.id} // Unique key for each notification
           style={{
-            backgroundColor: notification.readBy?.includes(auth.currentUser?.uid)
+            backgroundColor: notification.readBy?.includes(
+              auth.currentUser?.uid
+            )
               ? "#fff" // White for read notifications
               : "#f0f0f0", // Light gray for unread notifications
           }}
@@ -110,7 +127,8 @@ const Notifications = () => {
           onClick={() => handleNotificationClick(notification.id)} // Mark notification as read on click
         >
           <p className="notification-message">
-            {notification.message || "No message"} {/* Fallback for missing message */}
+            {notification.message || "No message"}{" "}
+            {/* Fallback for missing message */}
           </p>
           <p className="notification-time">{createdAt}</p>
         </div>
@@ -118,11 +136,7 @@ const Notifications = () => {
     });
   };
 
-  return (
-    <div className="notifications-container">
-      {renderNotifications()}
-    </div>
-  );
+  return <div className="notifications-container">{renderNotifications()}</div>;
 };
 
 export default Notifications;

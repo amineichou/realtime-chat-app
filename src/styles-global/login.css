@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 90vh;
     padding: 30px;
 }
 
@@ -20,6 +21,7 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
+    width: 100%;
     margin-top: 2rem;
 }
 
@@ -28,6 +30,8 @@
     display: flex;
     flex-direction: column;
     align-items: left;
+    max-width: 400px;
+    width: 100%;
 }
 
 .register form .form-group label,
@@ -37,7 +41,8 @@
 }
 .register form .form-group input,
 .login-page form div input {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
     padding: 15px 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -80,7 +85,7 @@
     justify-content: center;
     gap: 15px;
     padding: 10px;
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .login-page .else a {
@@ -111,9 +116,11 @@
 }
 
 .show-password {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100%;
     cursor: pointer;
 }
 

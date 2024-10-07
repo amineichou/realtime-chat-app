@@ -31,3 +31,9 @@ span {
 .toast {
   font-size: 0.8rem;
 }
+
+
+.wave {
+  position: absolute;
+  bottom: 0;
+}

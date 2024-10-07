@@ -2,40 +2,125 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 20px;
     padding: 30px;
 }
 
-.home-page>.example {
-    max-width: 500px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 20px;
-    padding: 20px;
-}
-
-.home-page>.wlc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 2rem;
+.home-page .wlc {
+    font-size: 3rem;
     font-weight: 600;
+    padding: 50px 30px;
 }
 
-.home-page>.about {
+.home-page .wlc span {
+    color: #333;
+}
+
+.home-page .example {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 720px;
+    padding: 50px 30px;
+    gap: 20px;
+}
+
+.home-page .continue {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    gap: 20px;
+    padding: 50px 30px;
 }
 
-.home-page>.about h1 {
-    color: var(--primary-color);
-    font-size: 6rem;
+.home-page .continue h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
 }
 
-.home-page>.about h2 {
-    color: var(--dark-color);
+.home-page .continue .links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.home-page .continue .links .login-btn {
+    color: var(--message-color);
+}
+
+.home-page .continue .links .login-btn:hover {
+    color: var(--message-color-hover);
+}
+
+.home-page .continue .links .register-btn {
+    background-color: var(--message-color);
+    color: #fff;
+}
+
+.home-page .continue .links .register-btn:hover {
+    background-color: var(--message-color-hover);
+}
+
+.home-page .continue a {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    text-decoration: none;
+}
+
+.home-page .about {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 50px 30px;
+}
+
+.home-page .about div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--message-color-hover);
+    color: #fff;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 0.6rem;
+    font-weight: 500;
+}
+
+.home-page .copyright {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px 0;
+    font-size: 1rem;
+    gap: 10px;
+    color: #ffffff;
+}
+
+.home-page .copyright a {
+    color: #e1e1e1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.home-page .copyright a:hover {
+    color: #ffffff;
 }

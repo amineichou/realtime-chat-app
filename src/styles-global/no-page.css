@@ -9,3 +9,17 @@
     letter-spacing: 0.1em;
     text-align: center;
 }
+
+.no-page img {
+    width: 200px;
+}
+
+
+@media screen and (max-width: 720px) {
+    .no-page img {
+        width: 150px;
+    }
+    .no-page {
+        font-size: 0.8rem;
+    }
+}
