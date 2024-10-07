@@ -142,7 +142,7 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
       <div className="nav-bar">
         <Link to="/" className="logo">
           <img
-            src="https://static.vecteezy.com/system/resources/thumbnails/008/508/754/small_2x/3d-chat-mail-message-notification-chatting-illustration-png.png"
+            src="/logo.png"
             alt="logo"
           />
         </Link>

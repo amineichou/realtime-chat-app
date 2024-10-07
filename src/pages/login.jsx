@@ -5,20 +5,11 @@ import Cookies from "universal-cookie";
 import "../styles-global/login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Wave from "react-wavify";
 
 const cookies = new Cookies(); // Moved cookies initialization outside the component
-
-const MAX_ATTEMPTS = 5;
-const LOCK_DURATION = 30 * 60 * 1000; // Lock duration: 30 minutes
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -33,69 +24,31 @@ const Login = ({ setIsAuthenticated }) => {
     setIsLoading(true); // Start loading
 
     try {
-      // Reference to Firestore document for the user
-      const userDocRef = doc(db, "users", email);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-
-        // Check if the account is locked
-        if (userData.lockUntil && userData.lockUntil > Date.now()) {
-          const timeRemaining = (userData.lockUntil - Date.now()) / 1000;
-          setError(
-            `Account locked. Try again in ${Math.ceil(
-              timeRemaining / 60
-            )} minutes.`
-          );
-          setIsLoading(false);
-          return;
-        }
-
-        // Attempt to sign in the user
-        try {
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          cookies.set("auth-token", userCredential.user.refreshToken); // Store token in cookies
-          setIsAuthenticated(true);
-
-          // Reset failed attempts after successful login
-          await updateDoc(userDocRef, { failedAttempts: 0 });
-          setError("");
-          navigate("/"); // Redirect to home page
-        } catch (err) {
-          const failedAttempts = (userData.failedAttempts || 0) + 1;
-
-          if (failedAttempts >= MAX_ATTEMPTS) {
-            // Lock the account if maximum attempts are exceeded
-            await updateDoc(userDocRef, {
-              failedAttempts,
-              lockUntil: Date.now() + LOCK_DURATION, // Lock the account for LOCK_DURATION
-            });
-            setError(
-              `Account locked due to too many failed attempts. Try again in 30 minutes.`
-            );
-          } else {
-            // Update the failedAttempts field in Firestore
-            await updateDoc(userDocRef, { failedAttempts });
-            setError(
-              `Invalid email or password. ${
-                MAX_ATTEMPTS - failedAttempts
-              } attempts left.`
-            );
-          }
-        }
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      cookies.set("auth-token", userCredential.user.refreshToken); // Store token in cookies
+      setIsAuthenticated(true);
+      navigate("/"); // Redirect to home
+      window.location.reload(); // Reload the page to update the UI
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      // Improved error handling based on Firebase Auth errors
+      if (
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
+        setError("Invalid email or password. Please try again.");
       } else {
-        setError("User not found.");
+        setError("An error occurred during sign-in. Please try again later.");
       }
-    } catch (err) {
-      setError("An error occurred during login. Please try again later.");
+    } finally {
+      setIsLoading(false); // Stop loading
     }
-
-    setIsLoading(false); // Stop loading
   };
 
   const signInWithGoogle = async () => {
@@ -105,9 +58,9 @@ const Login = ({ setIsAuthenticated }) => {
       setIsAuthenticated(true);
 
       const userDocRef = doc(db, "users", result.user.uid);
-      const userDoc = await getDoc(userDocRef);
+      const userDoc = await getDoc(userDocRef); // Corrected method for getting a document
 
-      // get a number between 0 and 10
+      // get a number bettwen 0 and 10
       const random = Math.floor(Math.random() * 10);
 
       // Add user to Firestore if not already present
@@ -131,6 +84,7 @@ const Login = ({ setIsAuthenticated }) => {
           status: "active",
         });
       }
+
       navigate("/"); // Redirect to home
       window.location.reload(); // Reload the page to update the UI
       setTimeout(() => {

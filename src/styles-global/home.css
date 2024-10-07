@@ -99,28 +99,3 @@
     font-size: 0.6rem;
     font-weight: 500;
 }
-
-.home-page .copyright {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 20px 0;
-    font-size: 1rem;
-    gap: 10px;
-    color: #ffffff;
-}
-
-.home-page .copyright a {
-    color: #e1e1e1;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-}
-
-.home-page .copyright a:hover {
-    color: #ffffff;
-}

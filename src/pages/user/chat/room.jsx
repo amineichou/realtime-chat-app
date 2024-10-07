@@ -10,10 +10,8 @@ import {
   where,
 } from "firebase/firestore";
 import { auth, db } from "../../../firebase-config";
-import { useParams } from "react-router-dom";
 import MessageBox from "../../../components/message-box";
 import { IoSend } from "react-icons/io5";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { BallTriangle } from "react-loader-spinner";
 
 const Room = (params) => {

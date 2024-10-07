@@ -2,7 +2,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Room from "./room";
 import AvRooms from "../av-rooms";
-import AvUsers from "../av-users";
 import "./styles/room-page.css";
 
 const RoomPage = () => {

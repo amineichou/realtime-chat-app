@@ -6,7 +6,6 @@ import { doc, serverTimestamp, setDoc, getDoc } from "firebase/firestore"; // Im
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Wave from "react-wavify";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -189,18 +188,6 @@ const Register = () => {
         {error && <p className="error-message">{error}</p>}
         <button type="submit">Register</button>
       </form>
-      <Wave
-        fill="#2B9FFF"
-        paused={false}
-        style={{ display: "flex" }}
-        className="wave"
-        options={{
-          height: 10,
-          amplitude: 30,
-          speed: 0.15,
-          points: 5,
-        }}
-      />
     </div>
   );
 };

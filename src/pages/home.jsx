@@ -4,7 +4,6 @@ import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import MessageBox from "../components/message-box";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
-import Wave from "react-wavify";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -115,22 +114,6 @@ const Home = () => {
           <motion.h1>{"+1K"}</motion.h1>
           <h2>ROOMS</h2>
         </div>
-      </div>
-      <Wave
-        fill="#2B9FFF"
-        paused={false}
-        style={{ display: "flex" }}
-        className="wave"
-        options={{
-          height: 10,
-          amplitude: 30,
-          speed: 0.15,
-          points: 5,
-        }}
-      />
-      <div className="copyright">
-        <p>Cloudhangouts C 2024 By</p>
-        <a href="github.com/CloudHangouts">amine ichou</a>
       </div>
     </div>
   );

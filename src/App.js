@@ -13,7 +13,7 @@ import EditProfile from "./pages/user/edit-profile";
 import RoomPage from "./pages/user/chat/room-page";
 import NoPage from "./components/NoPage";
 import DmPage from "./pages/user/chat/dm-page";
-
+import Wave from "react-wavify";
 
 const cookies = new Cookies();
 
@@ -39,6 +39,22 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
+          <Wave
+            fill="#2B9FFF"
+            paused={false}
+            style={{ display: "flex" }}
+            className="wave"
+            options={{
+              height: 10,
+              amplitude: 30,
+              speed: 0.15,
+              points: 5,
+            }}
+          />
+          <div className="copyright">
+            <p>Cloudhangouts C 2024 By</p>
+            <a href="github.com/CloudHangouts">amine ichou</a>
+          </div>
         </div>
       </BrowserRouter>
     );
