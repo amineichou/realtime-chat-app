@@ -1,5 +1,6 @@
 .room-page {
-  display: flex;
+    display: flex;
+    box-sizing: border-box;
 }
 
 .room-page .room-av {
@@ -12,7 +13,7 @@
 }
 
 @media screen and (max-width: 1120px) {
-    .room-page .room-av  {
+    .room-page .room-av {
         display: none;
     }
 }

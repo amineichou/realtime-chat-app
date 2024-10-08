@@ -153,11 +153,6 @@
         padding: 15px;
     }
 
-    .dm .messages,
-    .room .messages {
-        padding: 10px 10px;
-    }
-
     .dm button,
     .room button {
         padding: 8px;
