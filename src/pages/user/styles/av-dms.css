@@ -106,3 +106,39 @@
     height: 150px;
     object-fit: cover;
 }
+
+@media screen and (max-width: 768px) {
+    .av-dms {
+        padding: 10px;
+    }
+
+    .av-dms h2 {
+        font-size: 1.1rem;
+    }
+
+    .av-dms .dm-list .dm-user {
+        padding: 0.8em;
+    }
+
+    .av-dms .dm-list .dm-user img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .av-dms .dm-list .dm-user .dm-info {
+        font-size: 0.9rem;
+    }
+
+    .av-dms .dm-list .dm-user .date {
+        font-size: 0.7em;
+    }
+
+    .av-dms .dm-list .dm-user .username {
+        font-size: 0.7rem;
+    }
+
+    .av-dms .no-dms img {
+        width: 100px;
+        height: 100px;
+    }
+}

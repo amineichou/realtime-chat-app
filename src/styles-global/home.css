@@ -99,3 +99,26 @@
     font-size: 0.6rem;
     font-weight: 500;
 }
+
+
+@media screen and (max-width: 768px) {
+    .home-page .wlc {
+        font-size: 2rem;
+    }
+
+    .home-page .example {
+        padding: 30px;
+    }
+
+    .home-page .continue {
+        padding: 30px;
+    }
+
+    .home-page .continue h2 {
+        font-size: 1.4rem;
+    }
+
+    .home-page .about {
+        padding: 30px;
+    }
+}

@@ -1,3 +1,9 @@
+.wave {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
 .copyright {
     position: absolute;
     bottom: 0;
@@ -21,4 +27,15 @@
 
 .home-page .copyright a:hover {
     color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+    .wave {
+        position: relative;
+    }
+
+    .copyright {
+        padding: 20px 0;
+        font-size: 0.8rem;
+    }
 }

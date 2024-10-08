@@ -45,3 +45,31 @@
     color: red;
     text-align: center;
 }
+
+
+@media screen and (max-width: 768px) {
+    .weather-component {
+        width: 100%;
+    }
+
+    .weather-component h2 {
+        font-size: 1.3rem;
+    }
+
+    .weather-component .weather-info img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .weather-component .weather-info h3 {
+        font-size: 0.8rem;
+    }
+
+    .weather-component .weather-info p {
+        font-size: 0.8rem;
+    }
+
+    .weather-component .error-message {
+        font-size: 0.5rem;
+    }
+}

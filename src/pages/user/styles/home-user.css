@@ -23,9 +23,14 @@
 }
 
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 768px) {
+    .home-user-cn {
+        padding: 10px;
+    }
+
     .home-user-cn .home-usr-all .header {
         flex-direction: column-reverse;
+
     }
 
     .home-user {

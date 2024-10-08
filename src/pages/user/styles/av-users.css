@@ -80,8 +80,35 @@
     object-fit: cover;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 768px) {
     .av-users-container {
         width: 100%;
     }
+    .av-users-container .search-users input {
+        padding: 10px;
+    }
+    .user-card p {
+        width: 100px;
+    }
+    .user-card img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-card {
+        padding: 5px;
+    }
+    
+    .av-users-container.in-room {
+        padding: 10px;
+    }
+
+    .av-users-container.in-room .users {
+        gap: 5px;
+    }
+
+    .av-users-container.in-room h2 {
+        font-size: 1.1rem;
+    }
+    
 }

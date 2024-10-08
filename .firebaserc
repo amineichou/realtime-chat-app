@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "texts-hub"
-  }
+    "default": "texts-hub",
+    "cloudhangouts": "cloudhangouts"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -131,3 +131,34 @@
     width: 200px;
     height: 200px;
 }
+
+@media screen and (max-width: 768px) {
+    .myrooms {
+        padding: 10px;
+    }
+
+    .myrooms h2 {
+        font-size: 1rem;
+    }
+
+    .myrooms .myrooms-list .room-box a {
+        font-size: 0.7rem;
+    }
+
+    .myrooms .myrooms-list .room-box button {
+        font-size: 0.9rem;
+    }
+
+    .myrooms .myrooms-list .room-box .room-creator {
+        font-size: 0.7rem;
+    }
+
+    .myrooms .myrooms-list .room-box .room-users {
+        font-size: 0.7rem;
+    }
+
+    .myrooms .no-room img {
+        width: 150px;
+        height: 150px;
+    }
+}

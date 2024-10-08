@@ -144,18 +144,6 @@ const Login = ({ setIsAuthenticated }) => {
           Don't have an account? <Link to={"/register"}>Register</Link>
         </p>
       </div>
-      <Wave
-        fill="#2B9FFF"
-        paused={false}
-        style={{ display: "flex" }}
-        className="wave"
-        options={{
-          height: 10,
-          amplitude: 30,
-          speed: 0.15,
-          points: 5,
-        }}
-      />
     </div>
   );
 };
