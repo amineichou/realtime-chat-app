@@ -2,7 +2,7 @@
 
 A simple and scalable real-time chat application built using **React** and **Firebase**. This app supports real-time messaging between users, with user authentication and message storage via Firebase Firestore.
 
-Check it out [https://cloudhangouts.web.app/](https://cloudhangouts.web.app/)
+⚡ View Demo [https://cloudhangouts.web.app/](https://cloudhangouts.web.app/)
 
 ## Features
 
