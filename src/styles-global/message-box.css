@@ -1,5 +1,6 @@
 .message-cnt {
     display: flex;
+    box-sizing: border-box;
     gap: 10px;
 }
 
@@ -17,7 +18,9 @@
     max-width: 500px;
     width: fit-content;
     font-family: "Rubik", sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    overflow-wrap: break-word; /* Ensure long words break */
+    word-wrap: break-word; /* Older browsers support */
 }
 
 .message-cnt .user-pic {
