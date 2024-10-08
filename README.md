@@ -12,7 +12,7 @@ A simple and scalable real-time chat application built using **React** and **Fir
 
 ## Screenshots
 
-![Chat App Screenshot](path/to/your/screenshot.png)
+![Chat App Screenshot]([path/to/your/screenshot.png](https://cloudhangouts.web.app/ScreenShot_1.png))
 
 ## Technologies Used
 
@@ -29,7 +29,7 @@ Make sure you have the following installed:
 
 - Node.js
 - Firebase CLI
-- A Firebase project setup with Authentication and Firestore
+- A Firebase project setup with Authentication and Firestore and Storage
 
 ### Installation
 
