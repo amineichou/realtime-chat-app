@@ -12,7 +12,7 @@ A simple and scalable real-time chat application built using **React** and **Fir
 
 ## Screenshots
 
-![Chat App Screenshot]([path/to/your/screenshot.png](https://cloudhangouts.web.app/ScreenShot_1.png))
+![Chat App Screenshot](https://cloudhangouts.web.app/ScreenShot_1.png)
 
 ## Technologies Used
 
