@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "./App.css";
 import NavBar from "./components/nav-bar";
 import Home from "./pages/home";
-import Cookies from "universal-cookie";
-import { useState } from "react";
 import HomeUser from "./pages/user/home-user";
 import Settings from "./pages/user/settings/settings";
 import UserProfile from "./pages/user/user-profile";
@@ -14,13 +14,30 @@ import RoomPage from "./pages/user/chat/room-page";
 import NoPage from "./components/NoPage";
 import DmPage from "./pages/user/chat/dm-page";
 import Wave from "react-wavify";
-
-const cookies = new Cookies();
+import LoadingPage from "./components/loading-page";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    cookies.get("auth-token")
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false); // Set loading to false after checking auth state
+    });
+
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <LoadingPage/> // Show a loading state while checking auth
+  }
 
   if (!isAuthenticated) {
     return (
@@ -53,13 +70,14 @@ function App() {
             />
             <div className="copyright">
               <p>Cloudhangouts C 2024 By</p>
-              <a href="github.com/CloudHangouts">amine ichou</a>
+              <a href="https://github.com/amineichou">amine ichou</a>
             </div>
           </div>
         </div>
       </BrowserRouter>
     );
   }
+
   return (
     <BrowserRouter>
       <div className="App">

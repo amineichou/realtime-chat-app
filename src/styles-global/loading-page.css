@@ -12,7 +12,7 @@
 
 @media screen and (max-width: 768px) {
     .loading-page svg{
-        width: 20px;
-        height: 20px;
+        width: 60px;
+        height: 60px;
     }
 }
