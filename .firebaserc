@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "texts-hub",
+    "default": "cloudhangouts",
     "cloudhangouts": "cloudhangouts"
   },
   "targets": {},
