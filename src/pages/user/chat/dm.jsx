@@ -24,6 +24,7 @@ const Dm = (params) => {
   const [otherUser, setOtherUser] = useState(null); // State to hold the other user's data
   const [messages, setMessages] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [isSending, setIsSending] = useState(false); // Flag to track if a message is being sent
   const textAreaRef = useRef(null);
   const messagesRef = useRef(null);
 
@@ -110,13 +111,14 @@ const Dm = (params) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newMessage.trim() === "") return;
+    if (newMessage.trim() === "" || isSending) return; // Prevent sending if a message is already being sent
 
     if (otherUser.status === "deleted") {
       console.log("Cannot send message to a deleted user.");
       return;
     }
-  
+
+    setIsSending(true); // Set sending flag to true
 
     try {
       const currentUserData = await fetchUserData(auth.currentUser.uid);
@@ -134,6 +136,8 @@ const Dm = (params) => {
       setNewMessage("");
     } catch (error) {
       console.error("Error sending message:", error.message);
+    } finally {
+      setIsSending(false); // Set sending flag to false after message is sent
     }
   };
 
@@ -231,22 +235,30 @@ const Dm = (params) => {
                 adjustTextAreaHeight();
               }}
               rows="1"
-              disabled={otherUser.status === "deleted"}
+              disabled={isSending || otherUser.status === "deleted"} // Disable while sending
               style={{
                 resize: "none",
                 overflow: "hidden",
                 backgroundColor: "#fff",
                 cursor:
-                  otherUser.status === "deleted" ? "not-allowed" : "pointer",
+                  isSending || otherUser.status === "deleted"
+                    ? "not-allowed"
+                    : "text",
               }}
             />
             <button
               style={{
                 cursor:
-                  otherUser.status === "deleted" ? "not-allowed" : "pointer",
+                  isSending || otherUser.status === "deleted"
+                    ? "not-allowed"
+                    : "pointer",
               }}
               type="submit"
-              disabled={!newMessage.trim() || otherUser.status === "deleted"}
+              disabled={
+                isSending ||
+                !newMessage.trim() ||
+                otherUser.status === "deleted"
+              } // Disable if already sending
             >
               <IoSend />
             </button>
