@@ -16,6 +16,15 @@ import MessageBox from "../../../components/message-box";
 import { IoSend } from "react-icons/io5";
 import { BallTriangle } from "react-loader-spinner";
 
+function playAudio() {
+  var audio = new Audio("/pop.wav"); // Load your audio file 
+  if (audio && audio.paused) {
+    audio.play().catch((error) => {
+      console.log("Audio playback was prevented", error);
+    });
+  }
+}
+
 const Dm = (params) => {
   const { dmId } = params;
   const [newMessage, setNewMessage] = useState("");
@@ -144,6 +153,8 @@ const Dm = (params) => {
   useEffect(() => {
     if (!dmId || !isDmAvailable) return;
 
+    let previousMessageCount = 0;
+
     const queryMessages = query(
       collection(db, "messages"),
       where("dmId", "==", dmId)
@@ -169,6 +180,19 @@ const Dm = (params) => {
         .sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis());
 
       setMessages(sortedMessages);
+
+      // Check if new messages were added and if the latest message is from another user
+      const newMessageCount = sortedMessages.length;
+      const latestMessage = sortedMessages[newMessageCount - 1];
+
+      if (
+        newMessageCount > previousMessageCount &&
+        latestMessage.user !== auth.currentUser.uid
+      ) {
+        playAudio(); // Play audio only if the new message is from another user
+      }
+
+      previousMessageCount = newMessageCount;
     });
 
     return () => unsubscribe();
