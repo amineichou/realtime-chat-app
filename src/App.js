@@ -96,19 +96,9 @@ function App() {
             <Route path="*" element={<NoPage />} />
           </Routes>
           <div className="wave">
-            <Wave
-              fill="#2B9FFF"
-              paused={false}
-              style={{ display: "flex" }}
-              options={{
-                height: 10,
-                amplitude: 30,
-                speed: 0.15,
-                points: 5,
-              }}
-            />
             <div className="copyright">
-              <p>Cloudhangouts C 2024 By</p>
+              {/* <p>Cloudhangouts C 2024 By</p> */}
+              <p>By</p>
               <a href="https://github.com/amineichou">amine ichou</a>
             </div>
           </div>

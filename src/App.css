@@ -1,11 +1,11 @@
-.wave {
+/* .wave {
     position: absolute;
     width: 100%;
     bottom: 0;
-}
+} */
 
 .copyright {
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     display: flex;
     flex-direction: row;
@@ -15,24 +15,24 @@
     padding: 20px 0;
     font-size: 1rem;
     gap: 10px;
-    color: #ffffff;
+    color: #000000;
 }
 
 .copyright a {
-    color: #e1e1e1;
+    color: #272727;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease-in-out;
 }
 
-.home-page .copyright a:hover {
+.home-page  a:hover {
     color: #ffffff;
 }
 
 @media screen and (max-width: 768px) {
-    .wave {
+    /* .wave {
         position: relative;
-    }
+    } */
 
     .copyright {
         padding: 20px 0;
